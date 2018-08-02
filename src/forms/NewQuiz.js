@@ -1,6 +1,8 @@
 import { Form } from 'mobx-react-form';
 import validatorjs from 'validatorjs';
 
+import quizStore from '../stores/QuizStore'
+
 export default class NewQuiz extends Form {
     plugins() {
         return {dvr: validatorjs};
@@ -25,9 +27,7 @@ export default class NewQuiz extends Form {
     hooks(){
         return {
             onSuccess(form) {
-                alert('Form is valid! Send the request here.');
-                // get field values
-                console.log('Form Values!', form.values());
+                quizStore.updateForm(form);
             },
             onError(form) {
                 alert('Form has errors!');

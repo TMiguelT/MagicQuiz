@@ -10,7 +10,7 @@ export default class Question extends React.Component {
     return (
       <div>
         <p>What is this card?</p>
-        <div>{this.props.card}</div>
+        <div>{JSON.stringify(this.props.card)}</div>
       </div>
     );
   }

@@ -2,15 +2,13 @@ import React from "react";
 import { render } from "react-dom";
 import DevTools from "mobx-react-devtools";
 
-import Quiz from "./models/QuizModel"
+import quizStore from "./stores/QuizStore"
 import Page from './components/Page'
-
-const quiz = new Quiz();
 
 render(
   <div>
     <DevTools />
-    <Page store={quiz} />
+    <Page store={quizStore} />
   </div>,
   document.getElementById("root")
 );
