@@ -13,12 +13,12 @@ export default class NewQuiz extends Form {
             fields: [{
                 name: 'query',
                 label: 'Search Term',
-                placeholder: 't:legendary t:dragon',
                 rules: 'required|string',
+                value: 'r:mythic s:m19'
             }, {
                 name: 'prompt',
                 label: 'Prompt Type',
-                placeholder: 'image',
+                value: 'image',
                 rules: 'required|string|in:image,flavour,stats,text',
             }]
         };
@@ -27,12 +27,12 @@ export default class NewQuiz extends Form {
     hooks(){
         return {
             onSuccess(form) {
-                quizStore.updateForm(form);
+                quizStore.startQuiz(form.values());
             },
             onError(form) {
                 alert('Form has errors!');
-                // get all form errors
-                console.log('All form errors', form.errors());
+                // get all quizData errors
+                console.log('All quizData errors', form.errors());
             }
         }
     }
