@@ -43,6 +43,8 @@
     "react": "^16.4.2",
     "react-bulma-components": "^1.5.0",
     "react-dom": "^16.1.0",
+    "react-loading-image": "^0.4.1",
+    "react-spinners": "^0.3.3",
     "reactbulma": "^3.0.4",
     "reactstrap": "^4.8.0",
     "sass-loader": "^7.1.0",

@@ -22,7 +22,8 @@ export default class Form extends React.Component {
                         <Tile kind={'parent'} vertical={true}>
                             <Tile kind={'child'} renderAs="a" className={'box'} onClick={() => store.startQuiz({
                                 query: 'r:rary s:rav',
-                                prompt: 'image'
+                                prompt: 'image',
+                                quizLength: 10
                             })}>
                                 Identify rares from Ravnica?
                             </Tile>
@@ -30,7 +31,8 @@ export default class Form extends React.Component {
                         <Tile kind={'parent'} vertical={true}>
                             <Tile kind={'child'} renderAs="a" className={'box'} onClick={() => store.startQuiz({
                                 query: 'banned:legacy -o:ante -t:conspiracy -o:/flip ~/',
-                                prompt: 'image'
+                                prompt: 'image',
+                                quizLength: 10
                             })}>
                                 Identify cards banned in legacy?
                             </Tile>
@@ -40,7 +42,8 @@ export default class Form extends React.Component {
                         <Tile kind={'parent'} vertical={true}>
                             <Tile kind={'child'} renderAs="a" className={'box'} onClick={() => store.startQuiz({
                                 query: 's:m19 (t:instant or o:flash)',
-                                prompt: 'image'
+                                prompt: 'image',
+                                quizLength: 10
                             })}>
                                 Identify the instant-speed cards from M19?
                             </Tile>
@@ -48,7 +51,8 @@ export default class Form extends React.Component {
                         <Tile kind={'parent'} vertical={true}>
                             <Tile kind={'child'} renderAs="a" className={'box'} onClick={() => store.startQuiz({
                                 query: 'is:shockland',
-                                prompt: 'image'
+                                prompt: 'image',
+                                quizLength: 10
                             })}>
                                 Identify all Shocklands?
                             </Tile>

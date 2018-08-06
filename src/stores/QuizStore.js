@@ -1,20 +1,47 @@
-import {observable, action, computed} from 'mobx';
-import ScryfallClient from 'scryfall-client';
+import {observable, action, computed} from "mobx";
+import ScryfallClient from "scryfall-client";
 
 const scryfall = new ScryfallClient();
 
-import shuffle from 'lodash.shuffle';
+import shuffle from "lodash.shuffle";
 
 class Quiz {
-    @observable points = 0;
     @observable quizData;
-    @observable questionNumber = 0;
+    @observable quizLength = 0;
     @observable cards = [];
     @observable started = false;
     @observable answers = [];
 
+    @computed get quizFinished() {
+        return this.questionNumber > 1 && this.questionNumber >= this.quizLength;
+    }
+
     @computed get currentQuestion() {
-        return this.cards[this.questionNumber];
+        if (this.cards.length == 0)
+            return null;
+        else
+            return this.cards[this.questionNumber];
+    }
+
+    /**
+     * Which question we are up to in the quiz
+     */
+    @computed get questionNumber() {
+        return this.answers.length;
+    }
+
+    /**
+     * Returns the proportion of questions answered correctly, as a float
+     */
+    @computed get successProportion() {
+        return this.numCorrect / this.quizLength;
+    }
+
+    /**
+     * Returns the number of questions answered correctly
+     */
+    @computed get numCorrect() {
+        return this.answers.filter(el => el).length;
     }
 
     /**
@@ -48,9 +75,6 @@ class Quiz {
 
     @action giveAnswer(correct) {
         this.answers.push(correct);
-        if (correct)
-            this.points++;
-        this.questionNumber++;
     }
 
     @action togglePopup(show) {
@@ -60,19 +84,22 @@ class Quiz {
     @action resetQuiz() {
         this.cards = [];
         this.started = false;
-        this.questionNumber = 0;
-        this.points = 0;
         this.answers = [];
     }
 
     @action startQuiz(quizData) {
         this.resetQuiz();
-        this.quizData = quizData;
+        this.query = quizData.query;
+        this.quizLength = parseInt(quizData.quizLength);
         this.started = true;
 
-        scryfall.get('cards/search', {q: quizData.query})
-            .then(action('fetchCards', list => {
-                this.cards = shuffle(list);
+        scryfall.get("cards/search", {q: quizData.query})
+            .then(action("fetchCards", list => {
+                const allCards = [];
+                for (let card of list)
+                    allCards.push(card);
+                shuffle(allCards);
+                this.cards.replace(allCards);
             }));
     }
 }

@@ -1,33 +1,38 @@
-import React, {Component} from 'react';
-import {observable, action} from 'mobx';
-import {observer} from 'mobx-react';
-import Image from 'react-graceful-image';
+import React, {Component} from "react";
+import {observable, action} from "mobx";
+import {observer} from "mobx-react";
+import Image from "react-graceful-image";
 
 
-import {Container, Button, Form, Heading, Columns, Level, Card} from 'react-bulma-components/full';
+import {Container, Button, Form, Heading, Columns, Level, Card} from "react-bulma-components/full";
+import {MoonLoader, GridLoader} from "react-spinners";
 
-import quizStore from '../stores/QuizStore';
+import quizStore from "../stores/QuizStore";
 
 @observer
 export default class Question extends React.Component {
     constructor(props) {
         super(props);
         this.container = React.createRef();
-        this.state = {answer: ''};
+        this.state = {answer: ""};
     }
 
     componentDidUpdate() {
-        if ('scollIntoView' in this.container.current)
+        if ("scollIntoView" in this.container.current)
             this.container.current.scrollIntoView();
     }
 
     render() {
-        if (!this.props.card)
-            return <div/>;
 
         let art;
-        
-        if ('card_faces' in this.props.card) {
+
+        if (!this.props.card)
+            art = (
+                <Level.Item>
+                    <GridLoader/>
+                </Level.Item>
+            );
+        else if ("card_faces" in this.props.card) {
             art = (
                 <div>
                     {this.props.card.card_faces.map(face => {
@@ -38,7 +43,7 @@ export default class Question extends React.Component {
         }
         else
             art = (
-                <Image width={626} height={457} src={this.props.card.image_uris.art_crop}/>
+                <Image noLazyLoad={true} width={626} height={457} src={this.props.card.image_uris.art_crop}/>
             );
 
         return (
@@ -56,12 +61,19 @@ export default class Question extends React.Component {
                     </Card.Content>
                     <Card.Footer>
                         <Card.Footer.Item>
-                            <Form.Input value={this.state.answer} onChange={this.answerChanged.bind(this)}
-                                        type="text"/>
+                            <Form.Field kind="addons">
+                                <Form.Control>
+                                    <Form.Input value={this.state.answer} onChange={this.answerChanged.bind(this)}
+                                                type="text"/>
+                                </Form.Control>
+                                <Form.Control>
+                                    <Button submit={true} color='info'>Submit</Button>
+                                </Form.Control>
+                            </Form.Field>
                         </Card.Footer.Item>
-                        <Card.Footer.Item onClick={this.submit.bind(this)} renderAs="a" href="#">
-                            Submit
-                        </Card.Footer.Item>
+                        {/*<Card.Footer.Item onClick={this.submit.bind(this)} renderAs="a" href="#">*/}
+                        {/*Submit*/}
+                        {/*</Card.Footer.Item>*/}
                     </Card.Footer>
                 </Card>
             </form>
@@ -74,6 +86,7 @@ export default class Question extends React.Component {
     }
 
     submit(event) {
+        this.setState({answer: ""});
         const correct = this.state.answer.toLowerCase() === this.props.card.name.toLowerCase();
         quizStore.giveAnswer(correct);
 

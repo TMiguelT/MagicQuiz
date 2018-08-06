@@ -1,7 +1,7 @@
-import { Form } from 'mobx-react-form';
-import validatorjs from 'validatorjs';
+import {Form} from "mobx-react-form";
+import validatorjs from "validatorjs";
 
-import quizStore from '../stores/QuizStore'
+import quizStore from "../stores/QuizStore";
 
 export default class NewQuiz extends Form {
     plugins() {
@@ -10,30 +10,39 @@ export default class NewQuiz extends Form {
 
     setup() {
         return {
-            fields: [{
-                name: 'query',
-                label: 'Search Term',
-                rules: 'required|string',
-                value: 'r:mythic s:m19'
-            }, {
-                name: 'prompt',
-                label: 'Prompt Type',
-                value: 'image',
-                rules: 'required|string|in:image,flavour,stats,text',
-            }]
+            fields: [
+                {
+                    name: "query",
+                    label: "Search Term",
+                    rules: "required|string",
+                    value: "r:mythic s:m19"
+                },
+                // {
+                //     name: "prompt",
+                //     label: "Prompt Type",
+                //     value: "image",
+                //     rules: "required|string|in:image,flavour,stats,text"
+                // }
+                {
+                    name: 'quizLength',
+                    label: 'Quiz Length',
+                    rules: "required|integer|between:5,100",
+                    value: '10'
+                }
+            ]
         };
     }
-    
-    hooks(){
+
+    hooks() {
         return {
             onSuccess(form) {
                 quizStore.startQuiz(form.values());
             },
             onError(form) {
-                alert('Form has errors!');
+                alert("Form has errors!");
                 // get all quizData errors
-                console.log('All quizData errors', form.errors());
+                console.log("All quizData errors", form.errors());
             }
-        }
+        };
     }
 }

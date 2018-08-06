@@ -22,10 +22,16 @@ export default class Form extends React.Component {
                     </Card.Header>
                     <Card.Content>
                         <label htmlFor={form.$('query').id}>
-                            {form.$('query').label}
+                            {form.$('query').label} (using <a href="https://scryfall.com/docs/reference">Scryfall syntax</a>)
                         </label>
                         <BulmaForm.Input {...form.$('query').bind()} />
                         <BulmaForm.Help>{form.$('query').error}</BulmaForm.Help>
+
+                        <label htmlFor={form.$('quizLength').id}>
+                            {form.$('quizLength').label}
+                        </label>
+                        <BulmaForm.Input {...form.$('quizLength').bind()} type='number' />
+                        <BulmaForm.Help>{form.$('quizLength').error}</BulmaForm.Help>
 
                         {/*<label htmlFor={form.$('prompt').id}>*/}
                             {/*{form.$('prompt').label}*/}
