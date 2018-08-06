@@ -66,18 +66,18 @@ export default class Page extends React.Component {
 
                 <Section>
                     <Container>
-                        <Columns centered={true}>
-                            <Columns.Column size={6}>
-                                <Level>
-                                    <Level.Item>
-                                        <Heading size={1}>
-                                            Magic Art Quiz
-                                        </Heading>
-                                    </Level.Item>
-                                </Level>
+                        <Level>
+                            <Level.Item>
+                                <Heading size={1}>
+                                    Magic Art Quiz
+                                </Heading>
+                            </Level.Item>
+                        </Level>
+                        <Level>
+                            <Level.Item>
                                 {content}
-                            </Columns.Column>
-                        </Columns>
+                            </Level.Item>
+                        </Level>
                     </Container>
                 </Section>
             </div>
