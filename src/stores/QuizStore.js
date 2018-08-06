@@ -17,7 +17,7 @@ class Quiz {
     }
 
     @computed get currentQuestion() {
-        if (this.cards.length == 0)
+        if (this.cards.length === 0)
             return null;
         else
             return this.cards[this.questionNumber];
@@ -98,8 +98,7 @@ class Quiz {
                 const allCards = [];
                 for (let card of list)
                     allCards.push(card);
-                shuffle(allCards);
-                this.cards.replace(allCards);
+                this.cards.replace(shuffle(allCards));
             }));
     }
 }
