@@ -21,7 +21,7 @@ export default class Form extends React.Component {
                     <Tile kind={'ancestor'}>
                         <Tile kind={'parent'} vertical={true}>
                             <Tile kind={'child'} renderAs="a" className={'box'} onClick={() => store.startQuiz({
-                                query: 'r:rary s:rav',
+                                query: 'r:rare s:rav',
                                 prompt: 'image',
                                 quizLength: 10
                             })}>
@@ -41,7 +41,7 @@ export default class Form extends React.Component {
                     <Tile kind={'ancestor'}>
                         <Tile kind={'parent'} vertical={true}>
                             <Tile kind={'child'} renderAs="a" className={'box'} onClick={() => store.startQuiz({
-                                query: 's:m19 (t:instant or o:flash)',
+                                query: 's:m19 (t:instant or o:flash) is:booster',
                                 prompt: 'image',
                                 quizLength: 10
                             })}>
