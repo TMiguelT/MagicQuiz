@@ -12,6 +12,7 @@ import CardActions from '@material-ui/core/CardActions';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 
 import {MoonLoader, GridLoader} from 'react-spinners';
@@ -56,41 +57,39 @@ export default class Question extends React.Component {
             );
 
         return (
-                <Card ref={this.container}>
-                    <CardHeader title="What is this card?"/>
-                    <CardMedia style={{
-                        height: 457,
-                        width: 626
-                    }} image={this.props.card.image_uris.art_crop}/>
-                    <form onSubmit={this.submit.bind(this)}>
-                    <Grid container spacing={10} justify={'center'} alignItems={'center'}>
-                        <Grid item>
-                            <TextField label={'Answer'}/>
-                        </Grid>
-                        <Grid item>
-                            <Button onClick={this.submit.bind(this)} variant="contained" color="primary">Submit</Button>
-                        </Grid>
+            <Card ref={this.container}>
+                <CardHeader title="What is this card?"/>
+                <CardMedia style={{
+                    height: 457,
+                    width: 626
+                }} image={this.props.card.image_uris.art_crop}/>
+                <form onSubmit={this.submit.bind(this)}>
+                    <Grid spacing={16} container justify={'center'} alignItems={'center'}>
+                        <FormControl>
+                            <Input label={'Answer'}/>
+                        </FormControl>
+                        <Button onClick={this.submit.bind(this)} variant="contained" color="primary">Submit</Button>
                     </Grid>
-                    </form>
-                    <CardActions>
-                    </CardActions>
-                    {/*<Card.Footer>*/}
-                    {/*<Card.Footer.Item>*/}
-                    {/*<Form.Field kind="addons">*/}
-                    {/*<Form.Control>*/}
-                    {/*<Form.Input value={this.state.answer} onChange={this.answerChanged.bind(this)}*/}
-                    {/*type="text"/>*/}
-                    {/*</Form.Control>*/}
-                    {/*<Form.Control>*/}
-                    {/*<Button submit={true} color='info'>Submit</Button>*/}
-                    {/*</Form.Control>*/}
-                    {/*</Form.Field>*/}
-                    {/*</Card.Footer.Item>*/}
-                    {/*/!*<Card.Footer.Item  renderAs="a" href="#">*!/*/}
-                    {/*/!*Submit*!/*/}
-                    {/*/!*</Card.Footer.Item>*!/*/}
-                    {/*</Card.Footer>*/}
-                </Card>
+                </form>
+                <CardActions>
+                </CardActions>
+                {/*<Card.Footer>*/}
+                {/*<Card.Footer.Item>*/}
+                {/*<Form.Field kind="addons">*/}
+                {/*<Form.Control>*/}
+                {/*<Form.Input value={this.state.answer} onChange={this.answerChanged.bind(this)}*/}
+                {/*type="text"/>*/}
+                {/*</Form.Control>*/}
+                {/*<Form.Control>*/}
+                {/*<Button submit={true} color='info'>Submit</Button>*/}
+                {/*</Form.Control>*/}
+                {/*</Form.Field>*/}
+                {/*</Card.Footer.Item>*/}
+                {/*/!*<Card.Footer.Item  renderAs="a" href="#">*!/*/}
+                {/*/!*Submit*!/*/}
+                {/*/!*</Card.Footer.Item>*!/*/}
+                {/*</Card.Footer>*/}
+            </Card>
         );
 
     }
