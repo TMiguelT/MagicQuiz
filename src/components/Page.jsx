@@ -9,6 +9,10 @@ import QuestionResult from "./QuestionResult";
 import QuizResult from "./QuizResult";
 import quizStore from "../stores/QuizStore";
 
+import CircularProgress from "@material-ui/core/CircularProgress";
+import LinearProgress from "@material-ui/core/LinearProgress";
+
+import {MoonLoader, GridLoader} from "react-spinners";
 // import Section from 'react-bulma-components/lib/components/section';
 // import Container from 'react-bulma-components/lib/components/container';
 
@@ -21,49 +25,61 @@ export default class Page extends React.Component {
     render() {
         let content;
 
-        if (this.props.store.quizFinished)
-            content = (
-                <QuizResult scorePercent={this.props.store.successProportion * 100}
-                            onReset={this.props.store.resetQuiz.bind(this.props.store)}/>
-            );
-        else if (this.props.store.started)
-            content = (
-                <div>
-                    <Score
-                        points={this.props.store.numCorrect}
-                        questionNumber={this.props.store.questionNumber + 1}
-                        quizLength={this.props.store.quizLength}
-                        onReset={this.props.store.resetQuiz.bind(this.props.store)}
-                    />
-                    <br/>
-                    <QuestionResult
-                        show={this.props.store.hasAnswered}
-                        success={this.props.store.lastCorrect}
-                        correctAnswer={this.props.store.lastName}
-                    />
-                    <Question card={this.props.store.currentQuestion}/>
-                </div>
-            );
+        switch (this.props.store.quizState) {
+            case "setup":
+                content = (
+                    <div>
+                        <QuizForm/>
+                        <Level/>
+                        <Level>
+                            <Level.Item>
+                                or
+                            </Level.Item>
+                        </Level>
+                        <Presets/>
+                    </div>
+                );
 
-        else
-            content = (
-                <div>
-                    <QuizForm/>
-                    <Level/>
-                    <Level>
-                        <Level.Item>
-                            or
-                        </Level.Item>
-                    </Level>
-                    <Presets/>
-                </div>
-            );
+                break;
+            case "loading":
+                let prog;
+                if (this.props.store.totalCards === 0)
+                    prog = <CircularProgress variant='indeterminate'/>;
+                else
+                    prog = <CircularProgress value={this.props.store.percentLoaded} variant='determinate'/>;
+
+                content = prog;
+
+                break;
+            case "started":
+                content = (
+                    <div>
+                        <Score
+                            points={this.props.store.numCorrect}
+                            questionNumber={this.props.store.questionNumber + 1}
+                            quizLength={this.props.store.quizLength}
+                            onReset={this.props.store.resetQuiz.bind(this.props.store)}
+                        />
+                        <br/>
+                        <QuestionResult
+                            show={this.props.store.hasAnswered}
+                            success={this.props.store.lastCorrect}
+                            correctAnswer={this.props.store.lastName}
+                        />
+                        <Question card={this.props.store.currentQuestion}/>
+                    </div>
+                );
+                break;
+            case "finished":
+                content = (
+                    <QuizResult scorePercent={this.props.store.successProportion * 100}
+                                onReset={this.props.store.resetQuiz.bind(this.props.store)}/>
+                );
+                break;
+        }
 
         return (
             <div>
-                {/*<IconPopup show={this.props.store.showPopup}*/}
-                {/*icon={this.props.store.lastCorrect ? 'correct' : 'incorrect'}/>*/}
-
                 <Section>
                     <Container>
                         <Level>

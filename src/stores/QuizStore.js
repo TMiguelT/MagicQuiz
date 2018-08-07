@@ -9,8 +9,23 @@ class Quiz {
     @observable quizData;
     @observable quizLength = 0;
     @observable cards = [];
-    @observable started = false;
+    @observable _quizState = "setup";
     @observable answers = [];
+    @observable totalCards = 0;
+
+    /**
+     * Returns the proportion of cards loaded
+     */
+    @computed get percentLoaded(){
+        return (this.cards.length / this.totalCards) * 100
+    }
+
+    @computed get quizState() {
+        if (this.quizFinished)
+            return "finished";
+        else
+            return this._quizState;
+    }
 
     @computed get quizFinished() {
         return this.questionNumber > 1 && this.questionNumber >= this.quizLength;
@@ -83,7 +98,8 @@ class Quiz {
 
     @action resetQuiz() {
         this.cards = [];
-        this.started = false;
+        this.totalCards = 0;
+        this._quizState = "setup";
         this.answers = [];
     }
 
@@ -91,15 +107,28 @@ class Quiz {
         this.resetQuiz();
         this.query = quizData.query;
         this.quizLength = parseInt(quizData.quizLength);
-        this.started = true;
+        this._quizState = "loading";
 
-        scryfall.get("cards/search", {q: quizData.query})
-            .then(action("fetchCards", list => {
-                const allCards = [];
-                for (let card of list)
-                    allCards.push(card);
-                this.cards.replace(shuffle(allCards));
-            }));
+        scryfall.get("cards/search", {q: this.query})
+            .then(this.receiveCards.bind(this));
+    }
+
+    @action receiveCards(list) {
+        // Update the total number of results, for the progress bar
+        this.totalCards = list.total_cards;
+
+        // Add the new cards
+        for (let card of list)
+            this.cards.push(card);
+
+        if (list.has_more)
+        // If there are more cards, request them
+            list.next().then(this.receiveCards.bind(this));
+        else {
+            // If there aren't, shuffle the cards and start the quiz
+            this.cards.replace(shuffle(this.cards));
+            this._quizState = 'started'
+        }
     }
 }
 
