@@ -1,23 +1,18 @@
-import React, {Component} from "react";
-import {observer} from "mobx-react";
+import React, {Component} from 'react';
+import {observer} from 'mobx-react';
 
-import QuizForm from "./Form";
-import Question from "./Question";
-import Score from "./Score";
-import Presets from "./Presets";
-import QuestionResult from "./QuestionResult";
-import QuizResult from "./QuizResult";
-import quizStore from "../stores/QuizStore";
+import QuizForm from './Form';
+import Question from './Question';
+import Score from './Score';
+import Presets from './Presets';
+import QuestionResult from './QuestionResult';
+import QuizResult from './QuizResult';
+import quizStore from '../stores/QuizStore';
+import Typography from '@material-ui/core/Typography';
 
-import CircularProgress from "@material-ui/core/CircularProgress";
-import LinearProgress from "@material-ui/core/LinearProgress";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-import {MoonLoader, GridLoader} from "react-spinners";
-// import Section from 'react-bulma-components/lib/components/section';
-// import Container from 'react-bulma-components/lib/components/container';
-
-// import 'react-bulma-components/src/index.sass'
-// import {Level, Section, Container, Heading, Box, Columns, Tile} from "react-bulma-components/full";
+import Grid from '@material-ui/core/Grid';
 
 @observer
 export default class Page extends React.Component {
@@ -26,22 +21,22 @@ export default class Page extends React.Component {
         let content;
 
         switch (this.props.store.quizState) {
-            case "setup":
+            case 'setup':
                 content = (
                     <div>
-                        <QuizForm/>
-                        <Level/>
-                        <Level>
-                            <Level.Item>
-                                or
-                            </Level.Item>
-                        </Level>
-                        <Presets/>
+                        <Grid container justify={'center'} direction={'column'} spacing={16}>
+                            <Grid item>
+                                <QuizForm/>
+                            </Grid>
+                            <Grid item>
+                                <Presets/>
+                            </Grid>
+                        </Grid>
                     </div>
                 );
 
                 break;
-            case "loading":
+            case 'loading':
                 let prog;
                 if (this.props.store.totalCards === 0)
                     prog = <CircularProgress variant='indeterminate'/>;
@@ -51,7 +46,7 @@ export default class Page extends React.Component {
                 content = prog;
 
                 break;
-            case "started":
+            case 'started':
                 content = (
                     <div>
                         <Score
@@ -70,7 +65,7 @@ export default class Page extends React.Component {
                     </div>
                 );
                 break;
-            case "finished":
+            case 'finished':
                 content = (
                     <QuizResult scorePercent={this.props.store.successProportion * 100}
                                 onReset={this.props.store.resetQuiz.bind(this.props.store)}/>
@@ -79,28 +74,20 @@ export default class Page extends React.Component {
         }
 
         return (
-            <div>
-                <Section>
-                    <Container>
-                        <Level>
-                            <Level.Item>
-                                <Heading size={1}>
-                                    Magic Art Quiz
-                                </Heading>
-                            </Level.Item>
-                        </Level>
-                        <Level>
-                            <Level.Item>
-                                {content}
-                            </Level.Item>
-                        </Level>
-                    </Container>
-                </Section>
-            </div>
+            <Grid direction={'column'} justify={'center'} alignItems={'center'} container>
+                <Grid item >
+                    <Typography variant="display2" gutterBottom>
+                        Magic Art Quiz
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    {content}
+                </Grid>
+            </Grid>
         );
     }
 
     setQuery(query) {
-        quizStore.startQuiz({query: query, prompt: "image"});
+        quizStore.startQuiz({query: query, prompt: 'image'});
     }
 }

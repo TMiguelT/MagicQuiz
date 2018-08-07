@@ -1,24 +1,33 @@
-import React, {Component} from "react";
-import {observable, action} from "mobx";
-import {observer} from "mobx-react";
-import Image from "react-graceful-image";
+import React, {Component} from 'react';
+import {observable, action} from 'mobx';
+import {observer} from 'mobx-react';
+import Image from 'react-graceful-image';
 
+import store from '../stores/QuizStore';
+import CardHeader from '@material-ui/core/CardHeader';
+import Button from '@material-ui/core/Button';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
 
-import {Container, Button, Form, Heading, Columns, Level, Card} from "react-bulma-components/full";
-import {MoonLoader, GridLoader} from "react-spinners";
+import {MoonLoader, GridLoader} from 'react-spinners';
 
-import quizStore from "../stores/QuizStore";
+import quizStore from '../stores/QuizStore';
 
 @observer
 export default class Question extends React.Component {
     constructor(props) {
         super(props);
         this.container = React.createRef();
-        this.state = {answer: ""};
+        this.state = {answer: ''};
     }
 
     componentDidUpdate() {
-        if ("scollIntoView" in this.container.current)
+        if ('scollIntoView' in this.container.current)
             this.container.current.scrollIntoView();
     }
 
@@ -32,7 +41,7 @@ export default class Question extends React.Component {
                     <GridLoader/>
                 </Level.Item>
             );
-        else if ("card_faces" in this.props.card) {
+        else if ('card_faces' in this.props.card) {
             art = (
                 <div>
                     {this.props.card.card_faces.map(face => {
@@ -47,36 +56,41 @@ export default class Question extends React.Component {
             );
 
         return (
-            <form onSubmit={this.submit.bind(this)}>
                 <Card ref={this.container}>
-                    <Card.Header>
-                        <Card.Header.Title>
-                            What is this card?
-                        </Card.Header.Title>
-                    </Card.Header>
-                    <Card.Content>
-                        <Level>
-                            {art}
-                        </Level>
-                    </Card.Content>
-                    <Card.Footer>
-                        <Card.Footer.Item>
-                            <Form.Field kind="addons">
-                                <Form.Control>
-                                    <Form.Input value={this.state.answer} onChange={this.answerChanged.bind(this)}
-                                                type="text"/>
-                                </Form.Control>
-                                <Form.Control>
-                                    <Button submit={true} color='info'>Submit</Button>
-                                </Form.Control>
-                            </Form.Field>
-                        </Card.Footer.Item>
-                        {/*<Card.Footer.Item onClick={this.submit.bind(this)} renderAs="a" href="#">*/}
-                        {/*Submit*/}
-                        {/*</Card.Footer.Item>*/}
-                    </Card.Footer>
+                    <CardHeader title="What is this card?"/>
+                    <CardMedia style={{
+                        height: 457,
+                        width: 626
+                    }} image={this.props.card.image_uris.art_crop}/>
+                    <form onSubmit={this.submit.bind(this)}>
+                    <Grid container spacing={10} justify={'center'} alignItems={'center'}>
+                        <Grid item>
+                            <TextField label={'Answer'}/>
+                        </Grid>
+                        <Grid item>
+                            <Button onClick={this.submit.bind(this)} variant="contained" color="primary">Submit</Button>
+                        </Grid>
+                    </Grid>
+                    </form>
+                    <CardActions>
+                    </CardActions>
+                    {/*<Card.Footer>*/}
+                    {/*<Card.Footer.Item>*/}
+                    {/*<Form.Field kind="addons">*/}
+                    {/*<Form.Control>*/}
+                    {/*<Form.Input value={this.state.answer} onChange={this.answerChanged.bind(this)}*/}
+                    {/*type="text"/>*/}
+                    {/*</Form.Control>*/}
+                    {/*<Form.Control>*/}
+                    {/*<Button submit={true} color='info'>Submit</Button>*/}
+                    {/*</Form.Control>*/}
+                    {/*</Form.Field>*/}
+                    {/*</Card.Footer.Item>*/}
+                    {/*/!*<Card.Footer.Item  renderAs="a" href="#">*!/*/}
+                    {/*/!*Submit*!/*/}
+                    {/*/!*</Card.Footer.Item>*!/*/}
+                    {/*</Card.Footer>*/}
                 </Card>
-            </form>
         );
 
     }
@@ -86,7 +100,7 @@ export default class Question extends React.Component {
     }
 
     submit(event) {
-        this.setState({answer: ""});
+        this.setState({answer: ''});
         const correct = this.state.answer.toLowerCase() === this.props.card.name.toLowerCase();
         quizStore.giveAnswer(correct);
 

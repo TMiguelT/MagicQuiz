@@ -5,49 +5,66 @@ import NewQuiz from '../forms/NewQuiz';
 
 const form = new NewQuiz();
 
-import {Button, Form as BulmaForm, Card} from 'react-bulma-components/full';
+// import {Button, Form as BulmaForm, Card} from 'react-bulma-components/full';
+
+import CardHeader from '@material-ui/core/CardHeader';
+import Button from '@material-ui/core/Button';
+import CardMedia from '@material-ui/core/CardMedia';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import Grid from '@material-ui/core/Grid';
+import {withStyles} from '@material-ui/core/styles';
+
+const styles = theme => ({
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
+    }
+});
 
 @observer
-export default class Form extends React.Component {
+class Form extends React.Component {
 
     render() {
         return (
             <form onSubmit={form.onSubmit}>
                 <input hidden type="submit"/>
                 <Card>
-                    <Card.Header>
-                        <Card.Header.Title>
-                            Create your quiz
-                        </Card.Header.Title>
-                    </Card.Header>
-                    <Card.Content>
-                        <label htmlFor={form.$('query').id}>
-                            {form.$('query').label} (using <a href="https://scryfall.com/docs/reference">Scryfall syntax</a>)
-                        </label>
-                        <BulmaForm.Input {...form.$('query').bind()} />
-                        <BulmaForm.Help>{form.$('query').error}</BulmaForm.Help>
+                    <CardHeader title="Create your quiz"/>
+                    <CardContent>
+                        <Grid container justify={'flexStart'}>
+                            <TextField
+                                className={this.props.classes.textField}
+                                {...form.$('query').bind()}
+                                label={form.$('query').label}
+                                margin={'normal'}
+                                helperText={form.$('query').error}
+                            />
 
-                        <label htmlFor={form.$('quizLength').id}>
-                            {form.$('quizLength').label}
-                        </label>
-                        <BulmaForm.Input {...form.$('quizLength').bind()} type='number' />
-                        <BulmaForm.Help>{form.$('quizLength').error}</BulmaForm.Help>
+                            {/*(using <a href="https://scryfall.com/docs/reference">Scryfall syntax</a>)*/}
+                            {/*<p>{}</p>*/}
 
-                        {/*<label htmlFor={form.$('prompt').id}>*/}
-                            {/*{form.$('prompt').label}*/}
-                        {/*</label>*/}
-                        {/*<BulmaForm.Input {...form.$('prompt').bind()} />*/}
-                        {/*<BulmaForm.Help>{form.$('prompt').error}</BulmaForm.Help>*/}
-
-                        <BulmaForm.Help>{form.error}</BulmaForm.Help>
-                    </Card.Content>
-                    <Card.Footer>
-                        <Card.Footer.Item onClick={form.onSubmit} renderAs="a" href="#">
-                            Create
-                        </Card.Footer.Item>
-                    </Card.Footer>
+                            <TextField
+                                className={this.props.classes.textField}
+                                {...form.$('quizLength').bind()}
+                                type='number'
+                                label={form.$('quizLength').label}
+                                margin={'normal'}
+                                helperText={form.$('quizLength').error}
+                            />
+                            <p>{form.error}</p>
+                        </Grid>
+                    </CardContent>
+                    <CardActions>
+                        <Button color="primary" onClick={form.onSubmit} renderAs="a" href="#">Create</Button>
+                    </CardActions>
                 </Card>
             </form>
         );
     }
 }
+
+export default withStyles(styles)(Form);

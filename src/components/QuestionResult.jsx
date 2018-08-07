@@ -3,7 +3,6 @@ import {observer} from 'mobx-react';
 
 import {Notification} from 'react-bulma-components/full';
 
-import store from '../stores/QuizStore';
 
 @observer
 export default class QuestionResult extends React.Component {
