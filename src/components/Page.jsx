@@ -17,7 +17,7 @@ import {MoonLoader, GridLoader} from "react-spinners";
 // import Container from 'react-bulma-components/lib/components/container';
 
 // import 'react-bulma-components/src/index.sass'
-import {Level, Section, Container, Heading, Box, Columns, Tile} from "react-bulma-components/full";
+// import {Level, Section, Container, Heading, Box, Columns, Tile} from "react-bulma-components/full";
 
 @observer
 export default class Page extends React.Component {
