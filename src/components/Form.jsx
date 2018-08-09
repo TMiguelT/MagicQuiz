@@ -59,7 +59,7 @@ class Form extends React.Component {
                         </Grid>
                     </CardContent>
                     <CardActions>
-                        <Button color="primary" onClick={form.onSubmit} renderAs="a" href="#">Create</Button>
+                        <Button fullWidth={true} variant={'contained'} color="primary" onClick={form.onSubmit} renderAs="a" href="#">Create</Button>
                     </CardActions>
                 </Card>
             </form>
