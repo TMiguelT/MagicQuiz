@@ -9,6 +9,8 @@ import QuestionResult from './QuestionResult';
 import QuizResult from './QuizResult';
 import quizStore from '../stores/QuizStore';
 import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -74,16 +76,21 @@ export default class Page extends React.Component {
         }
 
         return (
-            <Grid direction={'column'} justify={'center'} alignItems={'center'} container>
-                <Grid item >
-                    <Typography variant="display2" gutterBottom>
-                        Magic Art Quiz
-                    </Typography>
+            <div>
+                <AppBar position="static" color="default">
+                    <Toolbar>
+                        <Typography variant="title" color="inherit">
+                            Magic Art Quiz
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <br/>
+                <Grid direction={'column'} justify={'center'} alignItems={'center'} container>
+                    <Grid item>
+                        {content}
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    {content}
-                </Grid>
-            </Grid>
+            </div>
         );
     }
 
