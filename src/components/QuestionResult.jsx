@@ -1,46 +1,96 @@
-import React from 'react';
-import {observer} from 'mobx-react';
+import React from "react";
+import {observer} from "mobx-react";
 
-import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import {Notification} from 'react-bulma-components/full';
-
+import Button from "@material-ui/core/Button";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
+import IconButton from "@material-ui/core/IconButton";
+import {Notification} from "react-bulma-components/full";
+import green from "@material-ui/core/colors/green";
+import red from "@material-ui/core/colors/red";
+import ErrorIcon from "@material-ui/icons/Error";
+import InfoIcon from "@material-ui/icons/Info";
+import CloseIcon from "@material-ui/icons/Close";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import Grid from "@material-ui/core/Grid";
 
 @observer
 export default class QuestionResult extends React.Component {
+    constructor(props){
+        super(props);
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot){
+        if (!prevProps.show && this.props.show){
+            // If the snackbar just opened, set a timer to close it
+            this.setState({
+                timeout: window.setTimeout(() => {this.handleClose()}, 3000)
+            })
+        }
+        else if (prevProps.show && !this.props.show){
+            // If the snackbar just closed, reset the timer
+            window.clearTimeout(this.state.timeout)
+        }
+    }
+
     render() {
-        if (!this.props.show)
-            return null;
-        
         let message;
+        let colour;
         if (this.props.success) {
-            message = `Correct! That was ${this.props.correctAnswer}`;
+            message = (
+                <Grid container alignItems={"center"}>
+                    <CheckCircleIcon style={{
+                        marginRight: 10
+                    }}/>
+                    Correct! That was {this.props.correctAnswer}
+                </Grid>
+            );
+            colour = green[600];
         }
         else {
-            message = `Incorrect! That was ${this.props.correctAnswer}`;
+            message = (
+                <Grid container alignItems={"center"}>
+                    <ErrorIcon style={{
+                        marginRight: 10
+                    }}/>
+                    Incorrect! That was {this.props.correctAnswer}
+                </Grid>
+            );
+            colour = red[600];
         }
-        
+
         return (
             <Snackbar
                 anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
+                    vertical: "bottom",
+                    horizontal: "left"
                 }}
-                open={true}
+                open={this.props.show}
                 autoHideDuration={6000}
-                message={<span id="message-id">{message}</span>}
-                action={[
-                    <IconButton
-                        key="close"
-                        aria-label="Close"
-                        color="inherit"
-                    >
-                        <CloseIcon />
-                    </IconButton>,
-                ]}
-            />
+            >
+                <SnackbarContent
+                    message={message}
+                    onClose={this.handleClose.bind(this)}
+                    action={[
+                        <IconButton
+                            onClick={this.handleClose.bind(this)}
+                            key="close"
+                            aria-label="Close"
+                            color="inherit"
+                        >
+                            <CloseIcon/>
+                        </IconButton>
+                    ]}
+
+                    style={{
+                        backgroundColor: colour
+                    }}
+                />
+            </Snackbar>
         );
+    }
+
+    handleClose(){
+        this.props.onClose()
     }
 }

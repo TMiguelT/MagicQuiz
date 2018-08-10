@@ -62,7 +62,7 @@ class Question extends React.Component {
                             <div>
                                 <FormControl className={this.props.classes.formControl}>
                                     <InputLabel htmlFor="name-simple">Name</InputLabel>
-                                    <Input label={'Answer'}/>
+                                    <Input value={this.state.answer} onChange={this.answerChanged.bind(this)} label={'Answer'}/>
                                 </FormControl>
                                 <Button onClick={this.submit.bind(this)} variant="contained"
                                         color="primary">Submit</Button>

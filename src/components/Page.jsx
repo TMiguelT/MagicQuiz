@@ -58,11 +58,6 @@ export default class Page extends React.Component {
                             onReset={this.props.store.resetQuiz.bind(this.props.store)}
                         />
                         <br/>
-                        <QuestionResult
-                            show={this.props.store.hasAnswered}
-                            success={this.props.store.lastCorrect}
-                            correctAnswer={this.props.store.lastName}
-                        />
                         <Question card={this.props.store.currentQuestion}/>
                     </div>
                 );
@@ -77,6 +72,12 @@ export default class Page extends React.Component {
 
         return (
             <div>
+                <QuestionResult
+                    show={this.props.store.showSnackbar}
+                    success={this.props.store.lastCorrect}
+                    correctAnswer={this.props.store.lastName}
+                    onClose={() => {this.props.store.showSnackbar = false}}
+                />
                 <AppBar position="static" color="default">
                     <Toolbar>
                         <Typography variant="title" color="inherit">

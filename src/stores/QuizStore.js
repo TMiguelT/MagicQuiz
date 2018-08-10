@@ -12,6 +12,7 @@ class Quiz {
     @observable _quizState = "setup";
     @observable answers = [];
     @observable totalCards = 0;
+    @observable showSnackbar = false;
 
     /**
      * Returns the proportion of cards loaded
@@ -90,6 +91,7 @@ class Quiz {
 
     @action giveAnswer(correct) {
         this.answers.push(correct);
+        this.showSnackbar = true;
     }
 
     @action togglePopup(show) {
