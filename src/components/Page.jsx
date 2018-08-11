@@ -64,8 +64,13 @@ export default class Page extends React.Component {
                 break;
             case 'finished':
                 content = (
-                    <QuizResult scorePercent={this.props.store.successProportion * 100}
-                                onReset={this.props.store.resetQuiz.bind(this.props.store)}/>
+                    <QuizResult
+                        scorePercent={this.props.store.successProportion * 100}
+                        onReset={this.props.store.resetQuiz.bind(this.props.store)}
+                        answers={this.props.store.answers}
+                        cards={this.props.store.cards}
+                        correctAnswers={this.props.store.correctAnswers}
+                    />
                 );
                 break;
         }
@@ -76,7 +81,9 @@ export default class Page extends React.Component {
                     show={this.props.store.showSnackbar}
                     success={this.props.store.lastCorrect}
                     correctAnswer={this.props.store.lastName}
-                    onClose={() => {this.props.store.showSnackbar = false}}
+                    onClose={() => {
+                        this.props.store.showSnackbar = false;
+                    }}
                 />
                 <AppBar position="static" color="default">
                     <Toolbar>

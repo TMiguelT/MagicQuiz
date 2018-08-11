@@ -1,40 +1,106 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-import {Button, Box, Level, Card} from 'react-bulma-components/full';
+import Button from '@material-ui/core/Button';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import Check from '@material-ui/icons/Check';
+import Cross from '@material-ui/icons/Close';
+import Icon from '@material-ui/core/Icon';
+import Grid from '@material-ui/core/Grid';
+
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 
 @observer
 export default class Form extends React.Component {
 
     render() {
         let message;
-        if (this.props.scorePercent > 50){
-            message = `Well done! You guessed ${this.props.scorePercent}% of questions correctly!`
+        if (this.props.scorePercent > 50) {
+            message = `Well done! You guessed ${this.props.scorePercent}% of questions correctly!`;
         }
-        else{
-            message = `Bad luck! You only got ${this.props.scorePercent}% of questions correct`
+        else {
+            message = `Bad luck! You only got ${this.props.scorePercent}% of questions correct`;
         }
 
         return (
-            <Card>
-                <Card.Header>
-                    <Card.Header.Title>
-                        Quiz Completed
-                    </Card.Header.Title>
-                </Card.Header>
-                <Card.Content>
-                <Level>
-                    <Level.Item>
-                        {message}
-                    </Level.Item>
-                </Level>
-                </Card.Content>
-                <Card.Footer>
-                    <Card.Footer.Item onClick={this.props.onReset} renderAs="a" href="#">
-                    Reset
-                    </Card.Footer.Item>
-                </Card.Footer>
-            </Card>
+            <Grid container justify={'center'} direction={'column'} spacing={16}>
+                <Grid item>
+                    <Card>
+                        <CardHeader title="Quiz Completed"/>
+                        <CardContent>
+                            <Typography variant={'body1'}>
+                                {message}
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                            <Button fullWidth={true} color={'primary'} variant={'contained'}
+                                    onClick={this.props.onReset}>
+                                Reset
+                            </Button>
+                        </CardActions>
+                    </Card>
+                </Grid>
+                <Grid item>
+                    <Card>
+                        <CardHeader title="Your Answers"/>
+                        <CardContent>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>
+                                            Your Answer
+                                        </TableCell>
+                                        <TableCell>
+                                            Correct Answer
+                                        </TableCell>
+                                        <TableCell>
+                                            Result
+                                        </TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {this.props.answers.map((answer, i) => {
+                                        let icon, colour;
+
+                                        if (this.props.correctAnswers[i]) {
+                                            icon = <Check/>;
+                                            colour = green[600];
+                                        }
+                                        else {
+                                            icon = <Cross/>;
+                                            colour = red[600];
+                                        }
+
+                                        return <TableRow>
+                                            <TableCell>
+                                                {answer}
+                                            </TableCell>
+                                            <TableCell>
+                                                {this.props.cards[i].name}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Icon style={{color: colour}}>
+                                                    {icon}
+                                                </Icon>
+                                            </TableCell>
+                                        </TableRow>;
+                                    })}
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
         );
     }
 }

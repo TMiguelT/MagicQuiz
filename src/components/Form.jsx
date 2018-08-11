@@ -5,11 +5,8 @@ import NewQuiz from '../forms/NewQuiz';
 
 const form = new NewQuiz();
 
-// import {Button, Form as BulmaForm, Card} from 'react-bulma-components/full';
-
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import TextField from '@material-ui/core/TextField';
@@ -59,7 +56,9 @@ class Form extends React.Component {
                         </Grid>
                     </CardContent>
                     <CardActions>
-                        <Button fullWidth={true} variant={'contained'} color="primary" onClick={form.onSubmit} renderAs="a" href="#">Create</Button>
+                        <Button fullWidth={true} variant={'contained'} color="primary" onClick={form.onSubmit}>
+                            Create
+                        </Button>
                     </CardActions>
                 </Card>
             </form>

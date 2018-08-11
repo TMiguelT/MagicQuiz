@@ -1,15 +1,12 @@
 import React from "react";
 import {observer} from "mobx-react";
 
-import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import SnackbarContent from "@material-ui/core/SnackbarContent";
 import IconButton from "@material-ui/core/IconButton";
-import {Notification} from "react-bulma-components/full";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 import ErrorIcon from "@material-ui/icons/Error";
-import InfoIcon from "@material-ui/icons/Info";
 import CloseIcon from "@material-ui/icons/Close";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import Grid from "@material-ui/core/Grid";

@@ -1,29 +1,45 @@
-import {observable, action, computed} from "mobx";
-import ScryfallClient from "scryfall-client";
+import {observable, action, computed} from 'mobx';
+import ScryfallClient from 'scryfall-client';
+import XRegExp from 'xregexp';
 
 const scryfall = new ScryfallClient();
 
-import shuffle from "lodash.shuffle";
+import shuffle from 'lodash.shuffle';
+
+const letterRegex = XRegExp('[^\\p{Letter}]+', 'g');
 
 class Quiz {
     @observable quizData;
     @observable quizLength = 0;
     @observable cards = [];
-    @observable _quizState = "setup";
+    @observable _quizState = 'setup';
     @observable answers = [];
     @observable totalCards = 0;
     @observable showSnackbar = false;
 
     /**
-     * Returns the proportion of cards loaded
+     * Returns an array of boolean values, which are true if the player got that question correct, and false if they
+     * got it incorrect
      */
-    @computed get percentLoaded(){
-        return (this.cards.length / this.totalCards) * 100
+    @computed get correctAnswers(){
+        return new Array(this.quizLength).fill(null).map((_, i)=> {
+            return this.isCorrect(i);
+        })
     }
 
+    /**
+     * Returns the proportion of cards loaded
+     */
+    @computed get percentLoaded() {
+        return (this.cards.length / this.totalCards) * 100;
+    }
+
+    /**
+     * The state of the quiz. Either "setup", "loading", "started" or "finished"
+     */
     @computed get quizState() {
         if (this.quizFinished)
-            return "finished";
+            return 'finished';
         else
             return this._quizState;
     }
@@ -61,13 +77,26 @@ class Quiz {
     }
 
     /**
+     * Returns true if the question number provided was answered correctly
+     * @param questionNumber
+     */
+    isCorrect(questionNumber) {
+
+        // Remove all symbols and make everything lowercase
+        const answer = this.answers[questionNumber].toLowerCase().replace(letterRegex, '');
+        const correct = this.cards[questionNumber].name.toLowerCase().replace(letterRegex, '');
+
+        return answer === correct;
+    }
+
+    /**
      * Returns true if the user answered the last answer correctly
      */
     @computed get lastCorrect() {
-        if (this.answers.length === 0)
+        if (this.questionNumber === 0)
             return false;
         else
-            return this.answers.slice(-1)[0];
+            return this.isCorrect(this.answers.length - 1);
     }
 
     /**
@@ -101,7 +130,7 @@ class Quiz {
     @action resetQuiz() {
         this.cards = [];
         this.totalCards = 0;
-        this._quizState = "setup";
+        this._quizState = 'setup';
         this.answers = [];
     }
 
@@ -109,9 +138,9 @@ class Quiz {
         this.resetQuiz();
         this.query = quizData.query;
         this.quizLength = parseInt(quizData.quizLength);
-        this._quizState = "loading";
+        this._quizState = 'loading';
 
-        scryfall.get("cards/search", {q: this.query})
+        scryfall.get('cards/search', {q: this.query})
             .then(this.receiveCards.bind(this));
     }
 
@@ -129,7 +158,7 @@ class Quiz {
         else {
             // If there aren't, shuffle the cards and start the quiz
             this.cards.replace(shuffle(this.cards));
-            this._quizState = 'started'
+            this._quizState = 'started';
         }
     }
 }

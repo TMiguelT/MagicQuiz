@@ -1,20 +1,14 @@
 import React from 'react';
 import {observer} from 'mobx-react';
 
-// import {Button, Box, Level, Card, Tile} from 'react-bulma-components/full';
-import GridList from '@material-ui/core/GridList';
-import Button from '@material-ui/core/Button';
-import GridListTile from '@material-ui/core/GridListTile';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import PlayArrow from '@material-ui/icons/PlayArrow';
+import Typography from '@material-ui/core/Typography';
 
 import store from '../stores/QuizStore';
 
@@ -26,7 +20,9 @@ export default class Form extends React.Component {
             <Card>
                 <CardHeader title="Choose a preset quiz"/>
                 <CardContent>
+                    <Typography variant={'body2'}>
                     Can you...
+                    </Typography>
                     <List>
                         <ListItem button onClick={() => store.startQuiz({
                             query: 'r:rare s:rav',
@@ -36,7 +32,9 @@ export default class Form extends React.Component {
                             <ListItemIcon>
                                 <PlayArrow/>
                             </ListItemIcon>
+                            <Typography variant={'body1'}>
                             Identify rares from Ravnica?
+                            </Typography>
                         </ListItem>
                         <ListItem button onClick={() => store.startQuiz({
                             query: 'banned:legacy -o:ante -t:conspiracy -o:/flip ~/',
@@ -46,7 +44,9 @@ export default class Form extends React.Component {
                             <ListItemIcon>
                                 <PlayArrow/>
                             </ListItemIcon>
-                            Identify cards banned in legacy?
+                            <Typography variant={'body1'}>
+                                Identify cards banned in legacy?
+                            </Typography>
                         </ListItem>
                         <ListItem button onClick={() => store.startQuiz({
                             query: 's:m19 (t:instant or o:flash) is:booster',
@@ -56,7 +56,9 @@ export default class Form extends React.Component {
                             <ListItemIcon>
                                 <PlayArrow/>
                             </ListItemIcon>
+                            <Typography variant={'body1'}>
                             Identify the instant-speed cards from M19?
+                            </Typography>
                         </ListItem>
                         <ListItem button onClick={() => store.startQuiz({
                             query: 'is:shockland',
@@ -66,7 +68,9 @@ export default class Form extends React.Component {
                             <ListItemIcon>
                                 <PlayArrow/>
                             </ListItemIcon>
+                            <Typography variant={'body1'}>
                             Identify all Shocklands?
+                            </Typography>
                         </ListItem>
                     </List>
                 </CardContent>
