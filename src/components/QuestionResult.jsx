@@ -82,7 +82,7 @@ export default class QuestionResult extends React.Component {
                     style={{
                         backgroundColor: colour
                     }}
-                />
+            />
             </Snackbar>
         );
     }
