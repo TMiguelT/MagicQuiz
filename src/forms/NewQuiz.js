@@ -17,15 +17,22 @@ export default class NewQuiz extends Form {
                     rules: "required|string",
                     value: "r:mythic s:m19"
                 },
-                // {
-                //     name: "prompt",
-                //     label: "Prompt Type",
-                //     value: "image",
-                //     rules: "required|string|in:image,flavour,stats,text"
-                // }
+                {
+                    name: "clues",
+                    label: "Clue Type",
+                    value: ["image"],
+                    rules: "required|array|in:image,flavour,stats,text,type,mana",
+                    extra: [
+                        { value: 'image', label: 'Image' },
+                        { value: 'flavour', label: 'Flavour Text' },
+                        { value: 'text', label: 'Rules Text' },
+                        { value: 'type', label: 'Type Line' },
+                        { value: 'mana', label: 'Mana Cost' },
+                    ]
+                },
                 {
                     name: 'quizLength',
-                    label: 'Quiz Length',
+                    label: 'Number of Questions',
                     rules: "required|integer|between:5,100",
                     value: '10'
                 }
