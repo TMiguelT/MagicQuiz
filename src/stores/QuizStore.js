@@ -22,7 +22,9 @@ class Quiz {
      * got it incorrect
      */
     @computed get correctAnswers(){
-        return new Array(this.quizLength).fill(null).map((_, i)=> {
+        if (this.answers.length === 0)
+            return [];
+        return this.answers.map((_, i)=> {
             return this.isCorrect(i);
         })
     }
@@ -73,7 +75,7 @@ class Quiz {
      * Returns the number of questions answered correctly
      */
     @computed get numCorrect() {
-        return this.answers.filter(el => el).length;
+        return this.correctAnswers.filter(el => el).length;
     }
 
     /**
@@ -147,6 +149,10 @@ class Quiz {
     @action receiveCards(list) {
         // Update the total number of results, for the progress bar
         this.totalCards = list.total_cards;
+        
+        // Set the quiz length if there aren't enough cards
+        if (list.total_cards < this.quizLength)
+            this.quizLength = list.total_cards;
 
         // Add the new cards
         for (let card of list)
