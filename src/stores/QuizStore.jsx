@@ -15,18 +15,17 @@ class ScryfallCard {
     symbol = /{(.)(\/(.))?}/g;
 
     fieldAsComponent(field) {
-
-        const str = this[field];
+        let str = this[field];
         const matches = str.match(this.symbol);
 
         if (matches) {
             matches.forEach((symbol) => {
                 const key = symbol.slice(1, -1);
-                const text = field.replace(symbol, "<img src=\"" + ScryfallClient.symbols[key] + "\"/>");
+                str = str.replace(symbol, `<img src=${ScryfallClient.symbols[key]}/>`);
             });
         }
 
-        return text;
+        return str;
     }
 }
 
@@ -172,9 +171,9 @@ class Quiz {
         // Update the total number of results, for the progress bar
         this.totalCards = list.total_cards;
 
-        // Add the new cards
+        // Add the new cards, and give them a prototype
         for (let card of list)
-            this.cards.push(card);
+            this.cards.push(Object.setPrototypeOf(card, ScryfallCard.prototype));
 
         if (list.has_more)
         // If there are more cards, request them

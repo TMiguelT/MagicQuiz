@@ -66,7 +66,7 @@ class Question extends React.Component {
                 <CardContent>
                     {clues.includes("mana") && <p>
                         <Typography variant={"body1"}>
-                            <strong>Mana Cost:</strong> {card.mana_cost}
+                            <strong>Mana Cost:</strong> <div dangerouslySetInnerHTML={{__html: card.fieldAsComponent('mana_cost')}}/>
                         </Typography>
                     </p>}
                     {clues.includes("type") && <p>
@@ -81,7 +81,7 @@ class Question extends React.Component {
                     </p>}
                     {clues.includes("text") && card.oracle_text && <p>
                         <Typography variant={"body1"}>
-                            <strong>Oracle Text:</strong> {card.oracle_text}
+                            <strong>Oracle Text:</strong> <div dangerouslySetInnerHTML={{__html: card.fieldAsComponent('oracle_text')}}/>
                         </Typography>
                     </p>}
                     {clues.includes("art") && <div>
