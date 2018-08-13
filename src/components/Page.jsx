@@ -1,20 +1,20 @@
-import React, {Component} from 'react';
-import {observer} from 'mobx-react';
+import React, {Component} from "react";
+import {observer} from "mobx-react";
 
-import QuizForm from './Form';
-import Question from './Question';
-import Score from './Score';
-import Presets from './Presets';
-import QuestionResult from './QuestionResult';
-import QuizResult from './QuizResult';
-import quizStore from '../stores/QuizStore';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import QuizForm from "./Form";
+import Question from "./Question";
+import Score from "./Score";
+import Presets from "./Presets";
+import QuestionResult from "./QuestionResult";
+import QuizResult from "./QuizResult";
+import quizStore from "../stores/QuizStore";
+import Typography from "@material-ui/core/Typography";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
 
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 
 @observer
 export default class Page extends React.Component {
@@ -23,10 +23,10 @@ export default class Page extends React.Component {
         let content;
 
         switch (this.props.store.quizState) {
-            case 'setup':
+            case "setup":
                 content = (
                     <div>
-                        <Grid container justify={'center'} direction={'column'} spacing={16}>
+                        <Grid container justify={"center"} direction={"column"} spacing={16}>
                             <Grid item>
                                 <QuizForm/>
                             </Grid>
@@ -38,7 +38,7 @@ export default class Page extends React.Component {
                 );
 
                 break;
-            case 'loading':
+            case "loading":
                 let prog;
                 if (this.props.store.totalCards === 0)
                     prog = <CircularProgress variant='indeterminate'/>;
@@ -48,7 +48,7 @@ export default class Page extends React.Component {
                 content = prog;
 
                 break;
-            case 'started':
+            case "started":
                 content = (
                     <div>
                         <Score
@@ -58,11 +58,11 @@ export default class Page extends React.Component {
                             onReset={this.props.store.resetQuiz.bind(this.props.store)}
                         />
                         <br/>
-                        <Question card={this.props.store.currentQuestion}/>
+                        <Question clues={this.props.store.clues} card={this.props.store.currentQuestion}/>
                     </div>
                 );
                 break;
-            case 'finished':
+            case "finished":
                 content = (
                     <QuizResult
                         scorePercent={this.props.store.successProportion * 100}
@@ -93,8 +93,17 @@ export default class Page extends React.Component {
                     </Toolbar>
                 </AppBar>
                 <br/>
-                <Grid direction={'column'} justify={'center'} alignItems={'center'} container>
-                    <Grid item>
+                <Grid
+                    direction={"column"}
+                    justify={"center"}
+                    alignItems={"center"}
+                    container
+                >
+                    <Grid item
+                          style={{
+                              maxWidth: "600px"
+                          }}
+                    >
                         {content}
                     </Grid>
                 </Grid>
@@ -103,6 +112,6 @@ export default class Page extends React.Component {
     }
 
     setQuery(query) {
-        quizStore.startQuiz({query: query, prompt: 'image'});
+        quizStore.startQuiz({query: query, prompt: "image"});
     }
 }

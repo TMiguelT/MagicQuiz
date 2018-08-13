@@ -1,30 +1,53 @@
-import {observable, action, computed} from 'mobx';
-import ScryfallClient from 'scryfall-client';
-import XRegExp from 'xregexp';
+import {observable, action, computed} from "mobx";
+import ScryfallClient from "scryfall-client";
+import XRegExp from "xregexp";
 
 const scryfall = new ScryfallClient();
 
-import shuffle from 'lodash.shuffle';
+import shuffle from "lodash.shuffle";
 
-const letterRegex = XRegExp('[^\\p{Letter}]+', 'g');
+const letterRegex = XRegExp("[^\\p{Letter}]+", "g");
+
+/**
+ * Represents a card recieved from the Scryfall API
+ */
+class ScryfallCard {
+    symbol = /{(.)(\/(.))?}/g;
+
+    fieldAsComponent(field) {
+
+        const str = this[field];
+        const matches = str.match(this.symbol);
+
+        if (matches) {
+            matches.forEach((symbol) => {
+                const key = symbol.slice(1, -1);
+                const text = field.replace(symbol, "<img src=\"" + ScryfallClient.symbols[key] + "\"/>");
+            });
+        }
+
+        return text;
+    }
+}
 
 class Quiz {
     @observable quizData;
     @observable quizLength = 0;
     @observable cards = [];
-    @observable _quizState = 'setup';
+    @observable _quizState = "setup";
     @observable answers = [];
     @observable totalCards = 0;
     @observable showSnackbar = false;
+    @observable clues = [];
 
     /**
      * Returns an array of boolean values, which are true if the player got that question correct, and false if they
      * got it incorrect
      */
-    @computed get correctAnswers(){
-        return new Array(this.quizLength).fill(null).map((_, i)=> {
+    @computed get correctAnswers() {
+        return new Array(this.quizLength).fill(null).map((_, i) => {
             return this.isCorrect(i);
-        })
+        });
     }
 
     /**
@@ -39,7 +62,7 @@ class Quiz {
      */
     @computed get quizState() {
         if (this.quizFinished)
-            return 'finished';
+            return "finished";
         else
             return this._quizState;
     }
@@ -83,8 +106,8 @@ class Quiz {
     isCorrect(questionNumber) {
 
         // Remove all symbols and make everything lowercase
-        const answer = this.answers[questionNumber].toLowerCase().replace(letterRegex, '');
-        const correct = this.cards[questionNumber].name.toLowerCase().replace(letterRegex, '');
+        const answer = this.answers[questionNumber].toLowerCase().replace(letterRegex, "");
+        const correct = this.cards[questionNumber].name.toLowerCase().replace(letterRegex, "");
 
         return answer === correct;
     }
@@ -130,17 +153,18 @@ class Quiz {
     @action resetQuiz() {
         this.cards = [];
         this.totalCards = 0;
-        this._quizState = 'setup';
+        this._quizState = "setup";
         this.answers = [];
     }
 
     @action startQuiz(quizData) {
         this.resetQuiz();
         this.query = quizData.query;
+        this.clues = quizData.clues;
         this.quizLength = parseInt(quizData.quizLength);
-        this._quizState = 'loading';
+        this._quizState = "loading";
 
-        scryfall.get('cards/search', {q: this.query})
+        scryfall.get("cards/search", {q: this.query})
             .then(this.receiveCards.bind(this));
     }
 
@@ -158,7 +182,7 @@ class Quiz {
         else {
             // If there aren't, shuffle the cards and start the quiz
             this.cards.replace(shuffle(this.cards));
-            this._quizState = 'started';
+            this._quizState = "started";
         }
     }
 }

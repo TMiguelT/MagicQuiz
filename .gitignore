@@ -1,9 +1,11 @@
-<<<<<<< HEAD
+dist/*
+!dist/img
+
 node_modules
 npm-debug.log
 .DS_Store
 .idea
-=======
+
 # Logs
 logs
 *.log
