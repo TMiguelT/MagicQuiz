@@ -11,7 +11,15 @@ export default class ScryfallCard {
 
     fieldAsComponent(field) {
         let regex = this.symbolRegex;
-        let str = this[field];
+        
+        // Remove its name from the rules text
+        let str = this[field].replace(this.name, '~');
+        
+        // Sometimes legends have their name shortened
+        if (this.name.includes(',')) {
+            const firstName = this.name.split(' ')[0];
+            str = str.replace(firstName, '~');
+        }
 
         // Build up the children of a div
         const children = [];
