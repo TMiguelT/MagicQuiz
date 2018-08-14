@@ -12,7 +12,9 @@ const letterRegex = XRegExp("[^\\p{Letter}]+", "g");
  * Represents a card recieved from the Scryfall API
  */
 class ScryfallCard {
-    symbol = /{(.)(\/(.))?}/g;
+    get symbol() {
+        return /{(.(\/.)?)}/g;
+    }
 
     fieldAsComponent(field) {
         let str = this[field];
