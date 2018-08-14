@@ -1,4 +1,6 @@
 Fix names for transform cards
 Auto generation of presets
 Clicking on presets populates the form but doesn't send it
-Different modes other than image
+Add newlines to card text
+Remove card names from rules text clues
+Add hyperlinks in answer QuizResult/QuestionResult
