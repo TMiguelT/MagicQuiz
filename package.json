@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Boilerplate for MobX + React project with JSX, ES6 and decorator compilation",
   "scripts": {
-    "start": "webpack-dev-server --hot --debug",
+    "start": "webpack-dev-server --hot -d",
+    "prod": "webpack -p --output-path",
     "lint": "eslint src"
   },
   "repository": {
@@ -37,6 +38,7 @@
     "babel-preset-mobx": "^1.0.3",
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
+    "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
     "lodash.shuffle": "^4.2.0",
     "mobx": "^3.6.2",

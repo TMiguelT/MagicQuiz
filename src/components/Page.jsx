@@ -94,7 +94,6 @@ export default class Page extends React.Component {
                 </AppBar>
                 <br/>
                 <Grid
-                    direction={"column"}
                     justify={"center"}
                     alignItems={"center"}
                     container

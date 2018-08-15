@@ -54,7 +54,7 @@ export default class Form extends React.Component {
                     <Card>
                         <CardHeader title="Your Answers"/>
                         <CardContent>
-                            <Table>
+                            <Table style={{ tableLayout: 'auto' }} fixedHeader={false}>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>
