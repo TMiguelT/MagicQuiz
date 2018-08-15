@@ -86,7 +86,9 @@ export default class Form extends React.Component {
                                                 {answer}
                                             </TableCell>
                                             <TableCell>
-                                                {this.props.cards[i].name}
+                                                <a href={this.props.cards[i].scryfall_uri}>
+                                                {this.props.cards[i].frontField('name')}
+                                                </a>
                                             </TableCell>
                                             <TableCell>
                                                 <Icon style={{color: colour}}>

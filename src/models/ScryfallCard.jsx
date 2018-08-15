@@ -1,24 +1,34 @@
-import Icon from '@material-ui/core/Icon';
-import React from 'react';
+import Icon from "@material-ui/core/Icon";
+import React from "react";
 
 /**
  * Represents a card recieved from the Scryfall API
  */
 export default class ScryfallCard {
     get symbolRegex() {
-        return /{(.(\/.)?)}/g;
+        return /({(.(\/.)?)})|\n/g;
+    }
+
+    /**
+     * Returns a field from the front card of this transform card, or otherwise the normal card if this doesn't transform
+     */
+    frontField(field) {
+        if ("card_faces" in this)
+            return this.card_faces[0][field];
+        else
+            return this[field];
     }
 
     fieldAsComponent(field) {
         let regex = this.symbolRegex;
-        
-        // Remove its name from the rules text
-        let str = this[field].replace(this.name, '~');
-        
+
+        // Remove all instances of its name from the rules text
+        let str = this.frontField(field).replace(new RegExp(this.frontField('name'), 'g'), "~");
+
         // Sometimes legends have their name shortened
-        if (this.name.includes(',')) {
-            const firstName = this.name.split(' ')[0];
-            str = str.replace(firstName, '~');
+        if (this.frontField('name').includes(",")) {
+            const firstName = this.frontField('name').split(",")[0];
+            str = str.replace(firstName, "~");
         }
 
         // Build up the children of a div
@@ -38,14 +48,20 @@ export default class ScryfallCard {
                 children.push(str.slice(position, index));
             }
 
-            // Add the icon itself
-            const symbol = match[1].toLowerCase();
-            children.push(<img src={`/dist/img/mana${symbol}.png`}/>);
+            if (match[0][0] === "{") {
+                // If this is an icon, add the image
+                const symbol = match[2].toLowerCase();
+                children.push(<img src={`/dist/img/mana${symbol}.png`}/>);
+            }
+            else if (match[0] === "\n") {
+                // If this is a linebreak, add that
+                children.push(<br/>);
+            }
 
             // Update the last position to just after this symbol
             position = index + matchText.length;
         }
-        
+
         // Add the final text
         children.push(str.slice(position, -1));
 

@@ -79,15 +79,15 @@ class Question extends React.Component {
                     </p>}
                     {clues.includes('type') && <p>
                         <Typography variant={'body1'}>
-                            <strong>Type:</strong> {card.type_line}
+                            <strong>Type:</strong> {card.frontField('type_line')}
                         </Typography>
                     </p>}
-                    {clues.includes('flavour') && card.flavor_text && <p>
+                    {clues.includes('flavour') && card.frontField('flavor_text') && <p>
                         <Typography variant={'body1'}>
-                            <strong>Flavour Text:</strong> {card.flavor_text}
+                            <strong>Flavour Text:</strong> {card.frontField('flavor_text')}
                         </Typography>
                     </p>}
-                    {clues.includes('text') && card.oracle_text && <p>
+                    {clues.includes('text') && card.frontField('oracle_text') && <p>
                         <Typography variant={'body1'} className={classes.manaIcon}>
                             <strong>Oracle Text:</strong> {card.fieldAsComponent('oracle_text')}
                         </Typography>

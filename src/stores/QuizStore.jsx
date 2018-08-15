@@ -75,7 +75,7 @@ class Quiz {
     }
 
     /**
-     * Returns the number of questions answered correctly
+     * Returns the number of quest            return this.card_faces[0].name;ions answered correctly
      */
     @computed get numCorrect() {
         return this.correctAnswers.filter(el => el).length;
@@ -89,7 +89,7 @@ class Quiz {
 
         // Remove all symbols and make everything lowercase
         const answer = this.answers[questionNumber].toLowerCase().replace(letterRegex, '');
-        const correct = this.cards[questionNumber].name.toLowerCase().replace(letterRegex, '');
+        const correct = this.cards[questionNumber].frontField('name').toLowerCase().replace(letterRegex, '');
 
         return answer === correct;
     }
@@ -111,7 +111,7 @@ class Quiz {
         if (this.questionNumber === 0)
             return null;
         else
-            return this.cards[this.questionNumber - 1].name;
+            return this.cards[this.questionNumber - 1].frontField('name');
     }
 
 
