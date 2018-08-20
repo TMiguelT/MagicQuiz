@@ -114,6 +114,15 @@ class Quiz {
             return this.cards[this.questionNumber - 1].frontField('name');
     }
 
+    /**
+     * Returns the previous card in the quiz
+     */
+    @computed get lastCard() {
+        if (this.questionNumber === 0)
+            return null;
+        else
+            return this.cards[this.questionNumber - 1];
+    }
 
     /**
      * True if the user has answered at least one question

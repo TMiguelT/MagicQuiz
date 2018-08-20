@@ -1,6 +1,12 @@
 import React, {Component} from "react";
 import {observer} from "mobx-react";
 
+import Typography from "@material-ui/core/Typography";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Grid from "@material-ui/core/Grid";
+
 import QuizForm from "./Form";
 import Question from "./Question";
 import Score from "./Score";
@@ -8,13 +14,6 @@ import Presets from "./Presets";
 import QuestionResult from "./QuestionResult";
 import QuizResult from "./QuizResult";
 import quizStore from "../stores/QuizStore";
-import Typography from "@material-ui/core/Typography";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-
-import CircularProgress from "@material-ui/core/CircularProgress";
-
-import Grid from "@material-ui/core/Grid";
 
 @observer
 export default class Page extends React.Component {
@@ -28,10 +27,10 @@ export default class Page extends React.Component {
                     <div>
                         <Grid container justify={"center"} direction={"column"} spacing={16}>
                             <Grid item>
-                                <QuizForm/>
+                                <QuizForm form={this.props.form}/>
                             </Grid>
                             <Grid item>
-                                <Presets/>
+                                <Presets form={this.props.form}/>
                             </Grid>
                         </Grid>
                     </div>
@@ -80,10 +79,7 @@ export default class Page extends React.Component {
                 <QuestionResult
                     show={this.props.store.showSnackbar}
                     success={this.props.store.lastCorrect}
-                    correctAnswer={this.props.store.lastName}
-                    onClose={() => {
-                        this.props.store.showSnackbar = false;
-                    }}
+                    correctAnswer={this.props.store.lastCard}
                 />
                 <AppBar position="static" color="default">
                     <Toolbar>

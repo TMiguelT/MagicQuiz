@@ -32,7 +32,7 @@ export default class NewQuiz extends Form {
                 },
                 {
                     name: 'quizLength',
-                    label: 'Number of Questions',
+                    label: 'Quiz Length',
                     rules: "required|integer|between:5,100",
                     value: '10'
                 }
@@ -44,11 +44,6 @@ export default class NewQuiz extends Form {
         return {
             onSuccess(form) {
                 quizStore.startQuiz(form.values());
-            },
-            onError(form) {
-                alert("Form has errors!");
-                // get all quizData errors
-                console.log("All quizData errors", form.errors());
             }
         };
     }

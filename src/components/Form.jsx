@@ -1,10 +1,10 @@
 import React from "react";
 import {observer} from "mobx-react";
 
-import NewQuiz from "../forms/NewQuiz";
-
-const form = new NewQuiz();
-
+import CloseIcon from "@material-ui/icons/Close";
+import Snackbar from "@material-ui/core/Snackbar";
+import SnackbarContent from "@material-ui/core/SnackbarContent";
+import IconButton from "@material-ui/core/IconButton";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import CardContent from "@material-ui/core/CardContent";
@@ -23,7 +23,8 @@ import Chip from "@material-ui/core/Chip";
 import FormHelperText from "@material-ui/core/FormHelperText";
 
 import {withStyles} from "@material-ui/core/styles";
-import {Creatable} from "react-select";
+
+import red from "@material-ui/core/colors/red";
 
 const styles = theme => ({
     textField: {
@@ -34,22 +35,80 @@ const styles = theme => ({
 
 @observer
 class Form extends React.Component {
+    constructor(){
+        super();
+        this.state = {
+            showSnackbar: false
+        };
+    }
+    
+    closeSnackbar(){
+        this.setState({
+            showSnackbar: false
+        })
+    }
+    
+    submitForm(e){
+        const {form} = this.props;
+        
+        form.submit({
+            onError: (fieldset) => {
+                this.setState({
+                    showSnackbar: true
+                })
+            },
+        });
+        
+        e.preventDefault();
+    }
 
     render() {
+        const {form} = this.props;
         return (
-            <form onSubmit={form.onSubmit}>
+            <form onSubmit={this.submitForm.bind(this)}>
+                
+                {/*Popup for when the user submits an invalid form*/}
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "center"
+                    }}
+                    open={this.state.showSnackbar}
+                    onClose={this.closeSnackbar.bind(this)}
+                    autoHideDuration={3000}
+                >
+                    <SnackbarContent
+                        message={'Some of the fields have not been specified properly'}
+                        action={[
+                            <IconButton
+                                onClick={this.closeSnackbar.bind(this)}
+                                key="close"
+                                aria-label="Close"
+                                color="inherit"
+                            >
+                                <CloseIcon/>
+                            </IconButton>
+                        ]}
+
+                        style={{
+                            backgroundColor: red[600]
+                        }}
+                    />
+                </Snackbar>
+                
                 <input hidden type="submit"/>
                 <Card>
                     <CardHeader title="Create your quiz"/>
                     <CardContent>
-                        <Grid container direction={"column"} justify={"flexStart"}>
+                        <Grid container direction={"column"} justify={"flex-start"}>
                             <TextField
                                 fullWidth={true}
                                 className={this.props.classes.textField}
                                 {...form.$("query").bind()}
                                 label={form.$("query").label}
                                 margin={"normal"}
-                                helperText={form.$("query").error}
+                                error={form.$("query").error || null}
+                                helperText={form.$("query").error || <div>Using <a href="https://scryfall.com/docs/reference">Scryfall syntax</a></div>}
                             />
 
                             <TextField
@@ -59,7 +118,8 @@ class Form extends React.Component {
                                 type='number'
                                 label={form.$("quizLength").label}
                                 margin={"normal"}
-                                helperText={form.$("quizLength").error}
+                                error={form.$("quizLength").error || null}
+                                helperText={form.$("quizLength").error || 'Number of questions in the quiz'}
                             />
 
                             <FormControl
@@ -70,6 +130,7 @@ class Form extends React.Component {
                                 <InputLabel>{form.$("clues").label}</InputLabel>
                                 <Select
                                     multiple
+                                    error={form.$("clues").error || null}
                                     renderValue={selected =>
                                         <div>
                                             {selected.map(value => (
@@ -88,12 +149,12 @@ class Form extends React.Component {
                                         </MenuItem>
                                     )}
                                 </Select>
-                                <FormHelperText>{form.$("clues").error}</FormHelperText>
+                                <FormHelperText>{form.$("clues").error || 'Parts of each card you are shown'}</FormHelperText>
                             </FormControl>
                         </Grid>
                     </CardContent>
                     <CardActions>
-                        <Button fullWidth={true} variant={"contained"} color="primary" onClick={form.onSubmit}>
+                        <Button fullWidth={true} variant={"contained"} color="primary" onClick={this.submitForm.bind(this)}>
                             Create
                         </Button>
                     </CardActions>

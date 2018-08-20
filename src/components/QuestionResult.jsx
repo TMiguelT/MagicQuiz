@@ -1,56 +1,69 @@
-import React from "react";
-import {observer} from "mobx-react";
+import React from 'react';
+import {observer} from 'mobx-react';
 
-import Snackbar from "@material-ui/core/Snackbar";
-import SnackbarContent from "@material-ui/core/SnackbarContent";
-import IconButton from "@material-ui/core/IconButton";
-import green from "@material-ui/core/colors/green";
-import red from "@material-ui/core/colors/red";
-import ErrorIcon from "@material-ui/icons/Error";
-import CloseIcon from "@material-ui/icons/Close";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import Grid from "@material-ui/core/Grid";
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import IconButton from '@material-ui/core/IconButton';
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
+import ErrorIcon from '@material-ui/icons/Error';
+import CloseIcon from '@material-ui/icons/Close';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import Grid from '@material-ui/core/Grid';
 
 @observer
 export default class QuestionResult extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
+
+        this.state = {
+            showSnackbar: false
+        };
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot){
-        if (!prevProps.show && this.props.show){
-            // If the snackbar just opened, set a timer to close it
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // If the question has changed, show the popup
+        if (this.props.correctAnswer !== prevProps.correctAnswer && this.props.correctAnswer) {
             this.setState({
-                timeout: window.setTimeout(() => {this.handleClose()}, 3000)
-            })
+                showSnackbar: true
+            });
         }
-        else if (prevProps.show && !this.props.show){
-            // If the snackbar just closed, reset the timer
-            window.clearTimeout(this.state.timeout)
-        }
+    }
+
+    closeSnackbar() {
+        this.setState({
+            showSnackbar: false
+        });
     }
 
     render() {
+        const {correctAnswer} = this.props;
         let message;
         let colour;
-        if (this.props.success) {
+
+        if (!correctAnswer) {
+            message = null;
+        }
+        else if (this.props.success) {
             message = (
-                <Grid container alignItems={"center"}>
+                <Grid container alignItems={'center'}>
                     <CheckCircleIcon style={{
                         marginRight: 10
                     }}/>
-                    Correct! That was {this.props.correctAnswer}
+                    <span>Correct! That was&nbsp;</span>
+                    <a href={correctAnswer.scryfall_uri} target="_blank"> {correctAnswer.frontField('name')}</a>
                 </Grid>
             );
             colour = green[600];
         }
         else {
             message = (
-                <Grid container alignItems={"center"}>
+                <Grid container alignItems={'center'}>
                     <ErrorIcon style={{
                         marginRight: 10
                     }}/>
-                    Incorrect! That was {this.props.correctAnswer}
+                    <span>Incorrect! That was&nbsp;</span>
+                    <a href={correctAnswer.scryfall_uri} target="_blank"> {correctAnswer.frontField('name')}</a>
                 </Grid>
             );
             colour = red[600];
@@ -59,18 +72,18 @@ export default class QuestionResult extends React.Component {
         return (
             <Snackbar
                 anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left"
+                    vertical: 'bottom',
+                    horizontal: 'center'
                 }}
-                open={this.props.show}
-                autoHideDuration={6000}
+                open={this.state.showSnackbar}
+                autoHideDuration={5000}
+                onClose={this.closeSnackbar.bind(this)}
             >
                 <SnackbarContent
                     message={message}
-                    onClose={this.handleClose.bind(this)}
                     action={[
                         <IconButton
-                            onClick={this.handleClose.bind(this)}
+                            onClick={this.closeSnackbar.bind(this)}
                             key="close"
                             aria-label="Close"
                             color="inherit"
@@ -82,12 +95,12 @@ export default class QuestionResult extends React.Component {
                     style={{
                         backgroundColor: colour
                     }}
-            />
+                />
             </Snackbar>
         );
     }
 
-    handleClose(){
-        this.props.onClose()
+    handleClose() {
+        this.props.onClose();
     }
 }

@@ -45,7 +45,7 @@ const presetQuizzes = [
 
     {
         description: 'Red burn spells',
-        query: '@@ t:instant c:r o:damage o:"any target" not:funny not:funny',
+        query: '@@ t:instant c:r o:damage o:"any target" not:funny',
         length: 10,
         clues: ['image']
     },
@@ -227,6 +227,7 @@ const presetSubset = shuffle(presetQuizzes).slice(0, 10);
 export default class Presets extends React.Component {
 
     render() {
+        const {form} = this.props;
         return (
             <Card>
                 <CardHeader title="Choose a preset quiz"/>
@@ -236,11 +237,11 @@ export default class Presets extends React.Component {
                     </Typography>
                     <List>
                         {presetSubset.map(quiz => {
-                            return <ListItem button onClick={() => store.startQuiz({
-                                query: quiz.query,
-                                clues: quiz.clues,
-                                quizLength: quiz.length
-                            })}>
+                            return <ListItem button onClick={() => {
+                                form.set('value', {
+                                    query: quiz.query
+                                });
+                            }}>
                                 <ListItemIcon>
                                     <PlayArrow/>
                                 </ListItemIcon>

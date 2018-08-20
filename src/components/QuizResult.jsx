@@ -54,7 +54,7 @@ export default class Form extends React.Component {
                     <Card>
                         <CardHeader title="Your Answers"/>
                         <CardContent>
-                            <Table style={{ tableLayout: 'auto' }} fixedHeader={false}>
+                            <Table style={{tableLayout: 'auto'}} fixedHeader={false}>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>
@@ -86,8 +86,8 @@ export default class Form extends React.Component {
                                                 {answer}
                                             </TableCell>
                                             <TableCell>
-                                                <a href={this.props.cards[i].scryfall_uri}>
-                                                {this.props.cards[i].frontField('name')}
+                                                <a href={this.props.cards[i].scryfall_uri} target="_blank">
+                                                    {this.props.cards[i].frontField('name')}
                                                 </a>
                                             </TableCell>
                                             <TableCell>
