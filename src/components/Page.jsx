@@ -47,12 +47,8 @@ export default class Page extends Component {
                                   maxWidth: '600px'
                               }}
                         >
-                            <Route path="/">
-                                <CreateQuiz/>
-                            </Route>
-                            <Route path="/quiz">
-                                <TakeQuiz/>
-                            </Route>
+                            <Route path="/" component={CreateQuiz}/>
+                            <Route path="/quiz" component={TakeQuiz}/>
                         </Grid>
                     </Grid>
                 </div>
