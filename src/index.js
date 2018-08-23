@@ -1,13 +1,13 @@
-import React from "react";
-import { render } from "react-dom";
+import React from 'react';
+import {render} from 'react-dom';
+import {Provider} from 'mobx-react';
 
-import quizStore from "./stores/QuizStore"
-import Page from './components/Page'
-import NewQuiz from "./forms/NewQuiz";
+import stores from './stores/';
+import Page from './components/Page';
 
 render(
-  <div>
-    <Page store={quizStore} form={new NewQuiz()} />
-  </div>,
-  document.getElementById("root")
+    <Provider {...stores}>
+        <Page/>
+    </Provider>,
+    document.getElementById('root')
 );

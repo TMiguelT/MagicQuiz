@@ -1,9 +1,9 @@
 import {Form} from "mobx-react-form";
 import validatorjs from "validatorjs";
 
-import quizStore from "../stores/QuizStore";
+import quizStore from "./QuizStore";
 
-export default class NewQuiz extends Form {
+class NewQuiz extends Form {
     plugins() {
         return {dvr: validatorjs};
     }
@@ -48,3 +48,5 @@ export default class NewQuiz extends Form {
         };
     }
 }
+
+export default new NewQuiz();

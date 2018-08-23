@@ -1,5 +1,5 @@
 import React from "react";
-import {observer} from "mobx-react";
+import {observer, inject} from 'mobx-react';
 
 import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -33,6 +33,7 @@ const styles = theme => ({
     }
 });
 
+@inject('form')
 @observer
 class Form extends React.Component {
     constructor(){
