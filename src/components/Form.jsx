@@ -1,5 +1,7 @@
 import React from "react";
-import {observer, inject} from 'mobx-react';
+import {observer, inject} from "mobx-react";
+
+import queryString from 'query-string';
 
 import CloseIcon from "@material-ui/icons/Close";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -33,33 +35,43 @@ const styles = theme => ({
     }
 });
 
-@inject('form')
+@inject("form", "router")
 @observer
 class Form extends React.Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             showSnackbar: false
         };
     }
-    
-    closeSnackbar(){
+
+    closeSnackbar() {
         this.setState({
             showSnackbar: false
-        })
+        });
     }
-    
-    submitForm(e){
-        const {form} = this.props;
-        
+
+    submitForm(e) {
+        const {form, router} = this.props;
+
         form.submit({
-            onError: (fieldset) => {
+            onError: fieldset => {
                 this.setState({
                     showSnackbar: true
-                })
+                });
             },
+            onSuccess: fieldset => {
+                this.setState({
+                    showSnackbar: false
+                });
+
+                router.push({
+                    pathname: "/quiz",
+                    search: queryString.stringify(fieldset.values())
+                });
+            }
         });
-        
+
         e.preventDefault();
     }
 
@@ -67,7 +79,7 @@ class Form extends React.Component {
         const {form} = this.props;
         return (
             <form onSubmit={this.submitForm.bind(this)}>
-                
+
                 {/*Popup for when the user submits an invalid form*/}
                 <Snackbar
                     anchorOrigin={{
@@ -79,7 +91,7 @@ class Form extends React.Component {
                     autoHideDuration={3000}
                 >
                     <SnackbarContent
-                        message={'Some of the fields have not been specified properly'}
+                        message={"Some of the fields have not been specified properly"}
                         action={[
                             <IconButton
                                 onClick={this.closeSnackbar.bind(this)}
@@ -96,7 +108,7 @@ class Form extends React.Component {
                         }}
                     />
                 </Snackbar>
-                
+
                 <input hidden type="submit"/>
                 <Card>
                     <CardHeader title="Create your quiz"/>
@@ -109,7 +121,8 @@ class Form extends React.Component {
                                 label={form.$("query").label}
                                 margin={"normal"}
                                 error={form.$("query").error || null}
-                                helperText={form.$("query").error || <div>Using <a href="https://scryfall.com/docs/reference">Scryfall syntax</a></div>}
+                                helperText={form.$("query").error ||
+                                <span>Using <a href="https://scryfall.com/docs/reference">Scryfall syntax</a></span>}
                             />
 
                             <TextField
@@ -120,7 +133,7 @@ class Form extends React.Component {
                                 label={form.$("quizLength").label}
                                 margin={"normal"}
                                 error={form.$("quizLength").error || null}
-                                helperText={form.$("quizLength").error || 'Number of questions in the quiz'}
+                                helperText={form.$("quizLength").error || "Number of questions in the quiz"}
                             />
 
                             <FormControl
@@ -150,12 +163,13 @@ class Form extends React.Component {
                                         </MenuItem>
                                     )}
                                 </Select>
-                                <FormHelperText>{form.$("clues").error || 'Parts of each card you are shown'}</FormHelperText>
+                                <FormHelperText>{form.$("clues").error || "Parts of each card you are shown"}</FormHelperText>
                             </FormControl>
                         </Grid>
                     </CardContent>
                     <CardActions>
-                        <Button fullWidth={true} variant={"contained"} color="primary" onClick={this.submitForm.bind(this)}>
+                        <Button fullWidth={true} variant={"contained"} color="primary"
+                                onClick={this.submitForm.bind(this)}>
                             Create
                         </Button>
                     </CardActions>

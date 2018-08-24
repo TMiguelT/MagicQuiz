@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {Router, Route} from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
@@ -21,8 +21,10 @@ export default class Page extends Component {
 
     render() {
         const {router, form, quiz} = this.props;
+        const browserHistory = createBrowserHistory();
+        const history = syncHistoryWithStore(browserHistory, router);
         return (
-            <BrowserRouter>
+            <Router history={history}>
                 <div>
                     <QuestionResult
                         show={this.props.quiz.showSnackbar}
@@ -52,7 +54,7 @@ export default class Page extends Component {
                         </Grid>
                     </Grid>
                 </div>
-            </BrowserRouter>
+            </Router>
         );
     }
 

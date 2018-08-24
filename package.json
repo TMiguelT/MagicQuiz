@@ -45,6 +45,7 @@
     "mobx-react-form": "^1.35.1",
     "mobx-react-router": "^4.0.4",
     "node-sass": "^4.9.2",
+    "query-string": "^5.1.0",
     "react": "^16.4.2",
     "react-dom": "^16.1.0",
     "react-loading-image": "^0.4.1",
