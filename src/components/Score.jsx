@@ -8,10 +8,15 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import { Link } from 'react-router-dom'
+
 @observer
 export default class Form extends React.Component {
 
     render() {
+
+        const link = props => <Link to="/" {...props} />;
+
         return (
             <Card ref={this.container}>
                 <CardContent>
@@ -28,7 +33,7 @@ export default class Form extends React.Component {
                 <CardActions>
                     <Grid container justify={'space-around'} alignContent={'center'}>
                         <Grid item xs={12}>
-                            <Button color={'primary'} fullWidth={true} onClick={this.props.onReset}>
+                            <Button color={'primary'} fullWidth={true} component={link}>
                                 Reset
                             </Button>
                         </Grid>

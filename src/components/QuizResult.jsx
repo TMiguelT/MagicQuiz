@@ -20,6 +20,8 @@ import Grid from '@material-ui/core/Grid';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
 
+import { Link } from 'react-router-dom'
+
 @observer
 export default class Form extends React.Component {
 
@@ -31,6 +33,7 @@ export default class Form extends React.Component {
         else {
             message = `Bad luck! You only got ${this.props.scorePercent}% of questions correct`;
         }
+        const link = props => <Link to="/" {...props} />;
 
         return (
             <Grid container justify={'center'} direction={'column'} spacing={16}>
@@ -43,8 +46,7 @@ export default class Form extends React.Component {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button fullWidth={true} color={'primary'} variant={'contained'}
-                                    onClick={this.props.onReset}>
+                            <Button fullWidth={true} color={'primary'} variant={'contained'} component={link}>
                                 Reset
                             </Button>
                         </CardActions>

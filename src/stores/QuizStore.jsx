@@ -4,11 +4,12 @@ import XRegExp from 'xregexp';
 import shuffle from 'lodash.shuffle';
 
 import ScryfallCard from '../models/ScryfallCard'
+import {history, routerStore} from './RouterStore';
 
 const scryfall = new ScryfallClient();
 
-
 const letterRegex = XRegExp('[^\\p{Letter}]+', 'g');
+
 
 class Quiz {
     @observable quizData;
@@ -20,6 +21,17 @@ class Quiz {
     @observable showSnackbar = false;
     @observable clues = [];
 
+    constructor() {
+        history.subscribe(this.urlChanged.bind(this));
+        if (routerStore.hasStarted){
+            this.urlChanged();
+        }
+    }
+    
+    urlChanged(){
+        this.startQuiz(routerStore.queryParams)
+    }
+    
     /**
      * Returns an array of boolean values, which are true if the player got that question correct, and false if they
      * got it incorrect
@@ -156,7 +168,8 @@ class Quiz {
         this._quizState = 'loading';
 
         scryfall.get('cards/search', {q: this.query})
-            .then(this.receiveCards.bind(this));
+            .then(this.receiveCards.bind(this))
+            .catch(() => {});
     }
 
     @action receiveCards(list) {

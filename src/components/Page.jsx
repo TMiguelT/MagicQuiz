@@ -11,10 +11,7 @@ import QuestionResult from "./QuestionResult";
 import TakeQuiz from "./TakeQuiz";
 import CreateQuiz from "./CreateQuiz";
 
-import createBrowserHistory from "history/createBrowserHistory";
-import {syncHistoryWithStore} from "mobx-react-router";
-
-const browserHistory = createBrowserHistory();
+import {history} from '../stores/RouterStore';
 
 @inject("router", "form", "quiz")
 @observer
@@ -22,7 +19,6 @@ export default class Page extends Component {
 
     render() {
         const {router, form, quiz} = this.props;
-        const history = syncHistoryWithStore(browserHistory, router);
         return (
             <Router history={history}>
                 <div>
