@@ -27,7 +27,7 @@ export default class Page extends Component {
                         success={this.props.quiz.lastCorrect}
                         correctAnswer={this.props.quiz.lastCard}
                     />
-                    <AppBar position="static" color="default">
+                    <AppBar position="static">
                         <Toolbar>
                             <Typography variant="title" color="inherit">
                                 Magic Art Quiz

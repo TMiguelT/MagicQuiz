@@ -1,3 +1,4 @@
 Auto generation of presets
-Add URL parameters for sharing
 Fix center box size
+Add 404 redirect: https://github.com/websemantics/gh-pages-spa
+Use gulp as build tool
