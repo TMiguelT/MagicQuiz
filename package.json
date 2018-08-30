@@ -37,7 +37,6 @@
     "babel-preset-stage-1": "^6.5.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
-    "ghspa": "^1.0.0",
     "history": "^4.7.2",
     "lodash.shuffle": "^4.2.0",
     "mobx": "^3.6.2",
@@ -49,6 +48,7 @@
     "query-string": "^5.1.0",
     "react": "^16.4.2",
     "react-dom": "^16.1.0",
+    "react-graceful-image": "^1.2.9",
     "react-loading-image": "^0.4.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
@@ -60,8 +60,5 @@
     "webpack": "^3.12.0",
     "webpack-dev-server": "^2.11.2",
     "xregexp": "^4.2.0"
-  },
-  "dependencies": {
-    "react-graceful-image": "^1.2.9"
   }
 }

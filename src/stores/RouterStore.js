@@ -2,7 +2,7 @@ import { RouterStore } from 'mobx-react-router';
 import {computed} from 'mobx';
 import queryString from 'query-string';
 
-import createBrowserHistory from "history/createBrowserHistory";
+import createHistory from "history/createHashHistory";
 import {syncHistoryWithStore} from "mobx-react-router";
 
 
@@ -33,7 +33,7 @@ class QuizRouterStore extends RouterStore {
     }
 }
 
-const browserHistory = createBrowserHistory();
+const browserHistory = createHistory();
 export const routerStore = new QuizRouterStore();
 export const history = syncHistoryWithStore(browserHistory, routerStore);
 
