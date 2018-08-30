@@ -11,8 +11,8 @@ module.exports = {
         './src/index'
     ],
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'bundle.js',
+        path: path.join(__dirname),
+        filename: 'dist/bundle.js',
         publicPath: '/dist/'
     },
     plugins: [
@@ -20,19 +20,15 @@ module.exports = {
         new CopyWebpackPlugin([
             {
                 from: 'index.html',
-                to: '..'
             },
             {
                 from: 'dist/img',
+                to: 'dist/img'
             }
         ])
     ],
     resolve: {
-        extensions: ['.js', '.jsx'],
-        alias: {
-            // Other aliases
-            '_variables.sass': path.resolve(__dirname, 'relative/path/to/your/file/from/webpack/config/file')
-        }
+        extensions: ['.js', '.jsx']
     },
     module: {
         rules: [
