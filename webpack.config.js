@@ -5,15 +5,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     devServer: {
-        historyApiFallback: true
+        historyApiFallback: true,
+        publicPath: '/dist/'
     },
     entry: [
         './src/index'
     ],
     output: {
-        path: path.join(__dirname),
-        filename: 'dist/bundle.js',
-        publicPath: '/dist/'
+        path: path.join(__dirname, 'dist'),
+        filename: 'js/bundle.js',
+        publicPath: '/js/'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -22,10 +23,10 @@ module.exports = {
                 from: 'index.html',
             },
             {
-                from: 'dist/img',
-                to: 'dist/img'
+                from: 'src/img',
+                to: 'img'
             }
-        ])
+        ]),
     ],
     resolve: {
         extensions: ['.js', '.jsx']
@@ -44,7 +45,21 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader!sass-loader'
-            }
-        ]
+            },
+// In your webpack config
+            {
+                test: /\.svg$/,
+                use: [
+                    {
+                        loader: 'babel-loader'
+                    },
+                    {
+                        loader: 'react-svg-loader',
+                        options: {
+                            jsx: true // true outputs JSX tags
+                        }
+                    }
+                ]
+            }]
     }
 };
