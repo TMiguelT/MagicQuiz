@@ -32,9 +32,8 @@ export default class Page extends Component {
                     />
                     <AppBar position="static">
                         <Toolbar>
-                            <SvgIcon viewBox="0 0 100 100" component={Logo}/>
                             <Typography variant="title" color="inherit">
-                                Magic Quiz
+                                <strong>Battle of Wits</strong>: The Magic Quiz
                             </Typography>
                         </Toolbar>
                     </AppBar>
