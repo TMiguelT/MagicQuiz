@@ -28,10 +28,10 @@ export default class Form extends React.Component {
     render() {
         let message;
         if (this.props.scorePercent > 50) {
-            message = `Well done! You guessed ${this.props.scorePercent}% of questions correctly!`;
+            message = `Well done! You guessed ${Math.round(this.props.scorePercent)}% of questions correctly!`;
         }
         else {
-            message = `Bad luck! You only got ${this.props.scorePercent}% of questions correct`;
+            message = `Bad luck! You only got ${Math.round(this.props.scorePercent)}% of questions correct`;
         }
         const link = props => <Link to="/" {...props} />;
 
