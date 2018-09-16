@@ -15,7 +15,6 @@ class NewQuiz extends Form {
                     name: "query",
                     label: "Search Term",
                     rules: "required|string",
-                    value: "r:mythic s:m19"
                 },
                 {
                     name: "clues",

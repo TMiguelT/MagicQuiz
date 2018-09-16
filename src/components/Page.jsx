@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {observer, inject} from 'mobx-react';
-import {Router, Route, Switch} from 'react-router-dom';
+import {Router, Route, Switch, Link} from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
@@ -32,9 +32,11 @@ export default class Page extends Component {
                     />
                     <AppBar position="static">
                         <Toolbar>
-                            <Typography variant="title" color="inherit">
-                                <strong>Battle of Wits</strong>: The Magic Quiz
-                            </Typography>
+                            <Link style={{textDecoration: 'none', color: 'inherit'}} to="/">
+                                <Typography variant="title" color="inherit">
+                                    <strong>Battle of Wits</strong>: The Magic Quiz
+                                </Typography>
+                            </Link>
                         </Toolbar>
                     </AppBar>
                     <br/>
@@ -57,9 +59,5 @@ export default class Page extends Component {
                 </div>
             </Router>
         );
-    }
-
-    setQuery(query) {
-        this.props.quiz.startQuiz({query: query, prompt: 'image'});
     }
 }

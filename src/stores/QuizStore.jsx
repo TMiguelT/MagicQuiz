@@ -62,7 +62,7 @@ class Quiz {
     }
 
     @computed get quizFinished() {
-        return this.questionNumber > 1 && this.questionNumber >= this.quizLength;
+        return this.questionNumber >= this.quizLength;
     }
 
     @computed get currentQuestion() {
@@ -87,7 +87,7 @@ class Quiz {
     }
 
     /**
-     * Returns the number of quest            return this.card_faces[0].name;ions answered correctly
+     * Returns the number of questions answered correctly
      */
     @computed get numCorrect() {
         return this.correctAnswers.filter(el => el).length;
