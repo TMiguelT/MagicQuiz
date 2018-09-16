@@ -51,7 +51,7 @@ export default class ScryfallCard {
             if (match[0][0] === "{") {
                 // If this is an icon, add the image
                 const symbol = match[2].toLowerCase();
-                children.push(<img src={`/img/mana${symbol}.png`}/>);
+                children.push(<img src={`img/mana${symbol}.png`}/>);
             }
             else if (match[0] === "\n") {
                 // If this is a linebreak, add that
