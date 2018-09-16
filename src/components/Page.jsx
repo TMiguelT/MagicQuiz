@@ -7,6 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
 import SvgIcon from '@material-ui/core/SvgIcon';
+import IconButton from '@material-ui/core/IconButton';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faGithub} from '@fortawesome/free-brands-svg-icons';
 
 import QuestionResult from './QuestionResult';
 import TakeQuiz from './TakeQuiz';
@@ -14,6 +17,8 @@ import CreateQuiz from './CreateQuiz';
 
 import {history} from '../stores/RouterStore';
 import Logo from '../img/logo.svg';
+import Button from '@material-ui/core/Button/Button';
+
 
 @inject('router', 'form', 'quiz')
 @observer
@@ -30,13 +35,25 @@ export default class Page extends Component {
                         success={this.props.quiz.lastCorrect}
                         correctAnswer={this.props.quiz.lastCard}
                     />
-                    <AppBar position="static">
+                    <AppBar position="static" style={{
+                        color: 'white'
+                    }}>
                         <Toolbar>
-                            <Link style={{textDecoration: 'none', color: 'inherit'}} to="/">
+                            <Link style={{
+                                textDecoration: 'none',
+                                color: 'inherit',
+                                flexGrow: 1
+                            }} to="/">
                                 <Typography variant="title" color="inherit">
                                     <strong>Battle of Wits</strong>: The Magic Quiz
                                 </Typography>
                             </Link>
+                            <Button color='inherit' href='https://github.com/TMiguelT/MagicQuiz'>
+                                View on GitHub
+                                <FontAwesomeIcon style={{
+                                    marginLeft: '10px'
+                                }} size={'lg'} color={'white'} icon={faGithub}/>
+                            </Button>
                         </Toolbar>
                     </AppBar>
                     <br/>
