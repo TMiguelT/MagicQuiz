@@ -133,7 +133,9 @@ class Form extends React.Component {
                 </Snackbar>
 
                 <input hidden type="submit"/>
-                <Card>
+                <Card style={{
+                    maxWidth: '375px'
+                }}>
                     <CardHeader title="Create your quiz"/>
                     <CardContent>
                         <Grid container direction={'column'} justify={'flex-start'}>

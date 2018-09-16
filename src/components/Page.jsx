@@ -6,19 +6,16 @@ import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Grid from '@material-ui/core/Grid';
-import SvgIcon from '@material-ui/core/SvgIcon';
-import IconButton from '@material-ui/core/IconButton';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faGithub} from '@fortawesome/free-brands-svg-icons';
+import Button from '@material-ui/core/Button/Button';
 
 import QuestionResult from './QuestionResult';
 import TakeQuiz from './TakeQuiz';
 import CreateQuiz from './CreateQuiz';
-
 import {history} from '../stores/RouterStore';
 import Logo from '../img/logo.svg';
-import Button from '@material-ui/core/Button/Button';
-
+import {title, subtitle} from '../metadata'
 
 @inject('router', 'form', 'quiz')
 @observer
@@ -45,7 +42,7 @@ export default class Page extends Component {
                                 flexGrow: 1
                             }} to="/">
                                 <Typography variant="title" color="inherit">
-                                    <strong>Battle of Wits</strong>: The Magic Quiz
+                                    <strong>{title}</strong>: {subtitle}
                                 </Typography>
                             </Link>
                             <Button color='inherit' href='https://github.com/TMiguelT/MagicQuiz'>
@@ -65,7 +62,7 @@ export default class Page extends Component {
                         <Grid item
                               style={{
                                   width: '100%',
-                                  maxWidth: '375px'
+                                  maxWidth: '600px'
                               }}
                         >
                             <Switch>
