@@ -134,7 +134,8 @@ class Form extends React.Component {
 
                 <input hidden type="submit"/>
                 <Card style={{
-                    width: '450px'
+                    maxWidth: '375px',
+                    minWidth: '100%'
                 }}>
                     <CardHeader title="Create your quiz"/>
                     <CardContent>
@@ -142,9 +143,6 @@ class Form extends React.Component {
                             <Grid container direction={'row'} alignItems={'baseline'} justify={'space-between'}
                                   spacing={0}>
                                 <TextField
-                                    style={{
-                                        minWidth: '300px'
-                                    }}
                                     fullWidth={false}
                                     className={this.props.classes.textField}
                                     {...form.$('query').bind()}
