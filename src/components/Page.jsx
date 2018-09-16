@@ -22,7 +22,6 @@ import {title, subtitle} from '../metadata'
 export default class Page extends Component {
 
     render() {
-        console.log(Logo);
         const {router, form, quiz} = this.props;
         return (
             <Router history={history}>

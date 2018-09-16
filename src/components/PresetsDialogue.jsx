@@ -19,7 +19,6 @@ const presetSubset = shuffle(presets);
 export default class Presets extends React.Component {
 
     handleClose(value){
-        console.log(value);
         this.props.onClose(value);
     };
 
@@ -30,7 +29,7 @@ export default class Presets extends React.Component {
                 <DialogTitle>Preset quizzes</DialogTitle>
                 <List>
                     {presetSubset.map(quiz => {
-                        return <ListItem button onClick={() => {
+                        return <ListItem key={quiz.query} button onClick={() => {
                             this.handleClose(quiz.query);
                         }}>
                             <ListItemIcon>

@@ -29,7 +29,7 @@ class QuizRouterStore extends RouterStore {
     
     @computed
     get hasStarted() {
-        return this.queryParams;
+        return Object.keys(this.queryParams).length > 0;
     }
 }
 

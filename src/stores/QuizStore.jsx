@@ -3,7 +3,7 @@ import ScryfallClient from 'scryfall-client';
 import XRegExp from 'xregexp';
 import shuffle from 'lodash.shuffle';
 
-import ScryfallCard from '../models/ScryfallCard'
+import ScryfallCard from '../models/ScryfallCard';
 import {history, routerStore} from './RouterStore';
 
 const scryfall = new ScryfallClient();
@@ -23,15 +23,17 @@ class Quiz {
 
     constructor() {
         history.subscribe(this.urlChanged.bind(this));
-        if (routerStore.hasStarted){
+        if (routerStore.hasStarted) {
             this.urlChanged();
         }
     }
-    
-    urlChanged(){
-        this.startQuiz(routerStore.queryParams)
+
+    urlChanged() {
+        if (routerStore.hasStarted) {
+            this.startQuiz(routerStore.queryParams);
+        }
     }
-    
+
     /**
      * Returns an array of boolean values, which are true if the player got that question correct, and false if they
      * got it incorrect
@@ -169,7 +171,8 @@ class Quiz {
 
         scryfall.get('cards/search', {q: this.query})
             .then(this.receiveCards.bind(this))
-            .catch(() => {});
+            .catch(() => {
+            });
     }
 
     @action receiveCards(list) {
