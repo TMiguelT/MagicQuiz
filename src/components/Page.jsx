@@ -47,7 +47,8 @@ export default class Page extends Component {
                     >
                         <Grid item
                               style={{
-                                  maxWidth: '600px'
+                                  width: '100%',
+                                  maxWidth: '375px'
                               }}
                         >
                             <Switch>

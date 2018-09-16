@@ -1,8 +1,9 @@
-import Question from "./Question";
-import Score from "./Score";
-import QuizResult from "./QuizResult";
+import Question from './Question';
+import Score from './Score';
+import QuizResult from './QuizResult';
 import React, {Component} from 'react';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Grid from '@material-ui/core/Grid';
 
 import {observer, inject} from 'mobx-react';
 
@@ -12,10 +13,17 @@ export default class TakeQuiz extends Component {
     render() {
         switch (this.props.quiz.quizState) {
             case 'loading':
+                let prog;
                 if (this.props.quiz.totalCards === 0)
-                    return <CircularProgress variant='indeterminate'/>;
+                    prog = <CircularProgress variant='indeterminate'/>;
                 else
-                    return <CircularProgress value={this.props.quiz.percentLoaded} variant='determinate'/>;
+                    prog = <CircularProgress value={this.props.quiz.percentLoaded} variant='determinate'/>;
+
+                return (
+                    <Grid container justify={'center'} alignItems={'center'}>
+                        {prog}
+                    </Grid>
+                );
             case 'started':
                 return (
                     <div>
