@@ -114,7 +114,7 @@ module.exports = [
 
     {
         description: 'Modern legal cards worth more than $50 USD',
-        query: 'f:modern usd>50'
+        query: 'usd>50 is:modern f:modern -is:promo'
     },
 
     {
